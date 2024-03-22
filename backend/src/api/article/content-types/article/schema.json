@@ -13,7 +13,8 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "default": "This interview is in progress..."
     },
     "description": {
       "type": "text",
@@ -60,6 +61,12 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.seo"
+    },
+    "interview": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::interview.interview",
+      "mappedBy": "article"
     }
   }
 }

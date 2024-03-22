@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "assistants",
+  "info": {
+    "singularName": "assistant",
+    "pluralName": "assistants",
+    "displayName": "Assistant"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "welcomemessage": {
+      "type": "string"
+    },
+    "interviewer_prompt": {
+      "type": "string"
+    },
+    "requester_prompt": {
+      "type": "string"
+    },
+    "publisher_prompt": {
+      "type": "string"
+    },
+    "telegramtoken": {
+      "type": "string",
+      "unique": true
+    },
+    "gpt_id": {
+      "type": "string",
+      "unique": true
+    },
+    "telegrambot_username": {
+      "type": "string",
+      "unique": true
+    },
+    "request": {
+      "type": "json"
+    },
+    "interviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::interview.interview",
+      "mappedBy": "assistant"
+    }
+  }
+}

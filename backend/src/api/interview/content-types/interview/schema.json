@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "interviews",
+  "info": {
+    "singularName": "interview",
+    "pluralName": "interviews",
+    "displayName": "Interview",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "thread_id": {
+      "type": "string",
+      "unique": true
+    },
+    "last_review": {
+      "type": "datetime"
+    },
+    "review_threshold": {
+      "type": "integer"
+    },
+    "transcript": {
+      "type": "json"
+    },
+    "result": {
+      "type": "json"
+    },
+    "assistant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::assistant.assistant",
+      "inversedBy": "interviews"
+    },
+    "human": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::human.human",
+      "inversedBy": "interviews"
+    },
+    "article": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::article.article",
+      "inversedBy": "interview"
+    }
+  }
+}

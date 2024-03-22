@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "humans",
+  "info": {
+    "singularName": "human",
+    "pluralName": "humans",
+    "displayName": "Human"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user_id": {
+      "type": "string",
+      "unique": true
+    },
+    "telegram_handle": {
+      "type": "string",
+      "unique": true
+    },
+    "demographics": {
+      "type": "json"
+    },
+    "interviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::interview.interview",
+      "mappedBy": "human"
+    }
+  }
+}
