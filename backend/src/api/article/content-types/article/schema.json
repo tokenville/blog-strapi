@@ -8,7 +8,7 @@
     "description": "Create your blog content"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -54,7 +54,7 @@
     "authorsBio": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::author.author",
+      "target": "api::human.human",
       "inversedBy": "articles"
     },
     "seo": {

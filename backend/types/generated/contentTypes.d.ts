@@ -797,7 +797,7 @@ export interface ApiArticleArticle extends Schema.CollectionType {
     description: 'Create your blog content';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     title: Attribute.String &
@@ -826,7 +826,7 @@ export interface ApiArticleArticle extends Schema.CollectionType {
     authorsBio: Attribute.Relation<
       'api::article.article',
       'manyToOne',
-      'api::author.author'
+      'api::human.human'
     >;
     seo: Attribute.Component<'shared.seo'>;
     interview: Attribute.Relation<
@@ -836,7 +836,6 @@ export interface ApiArticleArticle extends Schema.CollectionType {
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::article.article',
       'oneToOne',
@@ -858,9 +857,10 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
     singularName: 'assistant';
     pluralName: 'assistants';
     displayName: 'Assistant';
+    description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     welcomemessage: Attribute.String;
@@ -878,7 +878,6 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::assistant.assistant',
       'oneToOne',
@@ -909,11 +908,13 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
     name: Attribute.String;
     avatar: Attribute.Media;
     email: Attribute.String;
-    articles: Attribute.Relation<
+    telegram_handle: Attribute.String & Attribute.Unique;
+    interviews: Attribute.Relation<
       'api::author.author',
       'oneToMany',
-      'api::article.article'
+      'api::interview.interview'
     >;
+    user_id: Attribute.String & Attribute.Unique;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1048,9 +1049,10 @@ export interface ApiHumanHuman extends Schema.CollectionType {
     singularName: 'human';
     pluralName: 'humans';
     displayName: 'Human';
+    description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     user_id: Attribute.String & Attribute.Unique;
@@ -1061,9 +1063,16 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       'oneToMany',
       'api::interview.interview'
     >;
+    name: Attribute.String;
+    email: Attribute.String & Attribute.Unique;
+    avatar: Attribute.Media;
+    articles: Attribute.Relation<
+      'api::human.human',
+      'oneToMany',
+      'api::article.article'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::human.human',
       'oneToOne',
@@ -1088,7 +1097,7 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     thread_id: Attribute.String & Attribute.Unique;
@@ -1111,9 +1120,13 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
       'oneToOne',
       'api::article.article'
     >;
+    author: Attribute.Relation<
+      'api::interview.interview',
+      'manyToOne',
+      'api::author.author'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::interview.interview',
       'oneToOne',

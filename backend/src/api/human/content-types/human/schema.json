@@ -4,10 +4,11 @@
   "info": {
     "singularName": "human",
     "pluralName": "humans",
-    "displayName": "Human"
+    "displayName": "Human",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -27,6 +28,29 @@
       "relation": "oneToMany",
       "target": "api::interview.interview",
       "mappedBy": "human"
+    },
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "unique": true
+    },
+    "avatar": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::article.article",
+      "mappedBy": "authorsBio"
     }
   }
 }

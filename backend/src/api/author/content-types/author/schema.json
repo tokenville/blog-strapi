@@ -28,11 +28,19 @@
     "email": {
       "type": "string"
     },
-    "articles": {
+    "telegram_handle": {
+      "type": "string",
+      "unique": true
+    },
+    "interviews": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::article.article",
-      "mappedBy": "authorsBio"
+      "target": "api::interview.interview",
+      "mappedBy": "author"
+    },
+    "user_id": {
+      "type": "string",
+      "unique": true
     }
   }
 }
