@@ -13,7 +13,10 @@ const config: Config = {
         'custom-red': '#dc3545',  // Adding a custom red color
       },
       fontFamily: {
-        'sans': ['Roboto', 'sans-serif'], // Adding Roboto font to the sans-serif font family
+        'sans': ['IBM Plex Mono', 'monospace'], // Define a monospaced font-family
+        'mono': ['IBM Plex Mono', 'monospace'], // Define a monospaced font-family
+        'barcode': ['Libre Barcode 39 Text', 'sans-serif'],
+        'system': ['system-ui', 'sans-serif'],
       },
       spacing: {
         '80': '20rem',  // Adding a custom spacing utility

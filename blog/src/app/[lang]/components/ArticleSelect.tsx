@@ -22,8 +22,8 @@ interface Article {
 
 function selectedFilter(current: string, selected: string) {
   return current === selected
-    ? "px-3 py-1 rounded-lg hover:underline dark:bg-blue-700 dark:text-gray-100"
-    : "px-3 py-1 rounded-lg hover:underline dark:bg-blue-400 dark:text-gray-900";
+    ? "px-3 py-1 rounded-lg hover:underline dark:bg-grey-300 dark:text-gray-300"
+    : "px-3 py-1 rounded-lg hover:underline dark:bg-grey-200 dark:text-gray-800";
 }
 
 export default function ArticleSelect({
@@ -41,7 +41,7 @@ export default function ArticleSelect({
 
   return (
       <div>
-        <div className="flex flex-wrap py-6 space-x-2 dark:border-gray-400">
+        {/* <div className="flex flex-wrap py-6 space-x-2 dark:border-gray-400">
           {categories.map((category: Category) => {
             if (category.attributes.articles.data.length === 0) return null;
             return (
@@ -59,10 +59,10 @@ export default function ArticleSelect({
           <Link href={"/"} className={selectedFilter("", "filter")}>
             #all
           </Link>
-        </div>
+        </div> */}
 
-        <div className="space-y-2">
-          <h4 className="text-lg font-semibold">Other Posts You May Like</h4>
+        <div className="space-y-2 my-10">
+          <h4 className="text-lg font-semibold">More Human Difinations:</h4>
           <ul className="ml-4 space-y-1 list-disc">
             {articles.map((article: Article) => {
               return (

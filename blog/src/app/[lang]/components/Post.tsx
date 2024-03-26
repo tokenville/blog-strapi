@@ -30,12 +30,12 @@ interface Article {
             };
         };
         blocks: any[];
-        publishedAt: string;
+        updatedAt: string;
     };
 }
 
 export default function Post({ data }: { data: Article }) {
-    const { title, description, publishedAt, cover, authorsBio } = data.attributes;
+    const { title, description, updatedAt, cover, authorsBio } = data.attributes;
     const author = authorsBio.data?.attributes;
     const imageUrl = getStrapiMedia(cover.data?.attributes.url);
     const authorImgUrl = getStrapiMedia(authorsBio.data?.attributes.avatar.data.attributes.url);
@@ -52,30 +52,39 @@ export default function Post({ data }: { data: Article }) {
                 />
             )}
             <div className="space-y-6">
-                <h1 className="leading-tight text-5xl font-bold ">{title}</h1>
-                <div className="flex flex-col items-start justify-between w-full md:flex-row md:items-center dark:text-gray-400">
+                <h1 className="leading-tight text-center text-5xl font-bold ">{title}</h1><p className="text-lg">{description}</p>
+                <div className="flex flex-col items-center justify-between w-full md:flex-row md:items-center">
                     <div className="flex items-center md:space-x-2">
-                        {authorImgUrl && (
-                            <Image
-                                src={authorImgUrl}
-                                alt="article cover image"
-                                width={400}
-                                height={400}
-                                className="w-14 h-14 border rounded-full dark:bg-gray-500 dark:border-gray-700"
-                            />
-                        )}
-                        <p className="text-md dark:text-blue-400">
-                            {author && author.name} • {formatDate(publishedAt)}
+                        <p className="text-sm bg-gray-800 p-3">
+                        Disclaimer: This entry is based on an interview with {author && author.name}, last updated on {formatDate(updatedAt)}. The text and questions are generated automatically by Artificial Intelligence as part of 'Defining Humanity' project.
                         </p>
                     </div>
                 </div>
             </div>
-
             <div className="dark:text-gray-100">
-                <p>{description}</p>
-
-                {data.attributes.blocks.map((section: any, index: number) => postRenderer(section, index))}
+            {data.attributes.blocks.map((section, index) => postRenderer(section, index, author?.name || "unknown"))}
             </div>
+            <div className="flex items-center gap-4">
+                {authorImgUrl && (
+                    <Image
+                        src={authorImgUrl}
+                        alt="article cover image"
+                        width={200}
+                        height={200}
+                        className="w-10 h-10 rounded-full"
+                    />
+                )}
+                <div className="flex flex-col">
+                    <div className="text-md dark:text-gray-400">
+                        {author && author.name}
+                    </div>
+                    <div className="text-xs dark:text-gray-400">
+                        {formatDate(updatedAt)}
+                    </div>
+                </div>
+            </div>
+
         </article>
+        
     );
 }

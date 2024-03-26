@@ -19,8 +19,9 @@
     "last_review": {
       "type": "datetime"
     },
-    "review_threshold": {
-      "type": "integer"
+    "last_length": {
+      "type": "integer",
+      "default": 0
     },
     "transcript": {
       "type": "json"
@@ -51,6 +52,13 @@
       "relation": "manyToOne",
       "target": "api::author.author",
       "inversedBy": "interviews"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "chat_id": {
+      "type": "uid"
     }
   }
 }

@@ -4,14 +4,23 @@ import Quote from "../components/Quote";
 import Media from "../components/Media";
 import VideoEmbed from "../components/VideoEmbed";
 
-export function postRenderer(section: any, index: number) {
+export function postRenderer(section: any, index: number, authorName: string) {
   switch (section.__component) {
     case "shared.rich-text":
       return <RichText key={index} data={section} />;
     case "shared.slider":
       return <ImageSlider key={index} data={section} />;
-    case "shared.quote": 
-      return <Quote key={index} data={section} />;
+      case 'shared.quote':
+        return (
+          <Quote
+            key={index}
+            data={{
+              title: section.title,
+              body: section.body,
+              author: { name: authorName }
+            }}
+          />
+        );
     case "shared.media":
       return <Media key={index} data={section} />;
     case "shared.video-embed":

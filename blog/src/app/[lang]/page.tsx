@@ -68,7 +68,21 @@ export default function Profile() {
 
   return (
     <div>
-      <PageHeader heading="Our Blog" text="Checkout Something Cool" />
+
+<div className="flex flex-col gap-6 my-16 mx-auto w-3/5 text-center">
+    <h2 className="text-4xl my-4 lg:text-5xl font-bold font-heading">Defining Humanity</h2>
+    <span className="text-md">How do our individual experiences shape our collective identity? Discover it through 'Defining Humanity', where AI, foreign to our existence, engages in deep conversations with our species to explore the essence of being human. Every chat turns into a personal article, contributing to a global narrative.</span>
+    <button
+              type="button"
+              className="px-6 mx-auto w-2/5 py-3 text-sm rounded-lg dark:bg-gray-900 hover:bg-white hover:text-black dark:text-gray-400"
+              onClick={() => {
+                window.location.href = 'https://t.me/aiinterview_bot';
+              }}
+            >
+              Share your experience
+            </button>
+    
+  </div>
       <PostList data={data}>
         {meta!.pagination.start + meta!.pagination.limit <
           meta!.pagination.total && (

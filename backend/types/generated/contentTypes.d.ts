@@ -590,6 +590,53 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -695,7 +742,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -724,6 +770,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    assistants: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::assistant.assistant'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -734,53 +785,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'plugin::users-permissions.user',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
       'oneToOne',
       'admin::user'
     > &
@@ -802,11 +806,7 @@ export interface ApiArticleArticle extends Schema.CollectionType {
   attributes: {
     title: Attribute.String &
       Attribute.DefaultTo<'This interview is in progress...'>;
-    description: Attribute.Text &
-      Attribute.Required &
-      Attribute.SetMinMaxLength<{
-        maxLength: 256;
-      }>;
+    description: Attribute.Text & Attribute.Required;
     slug: Attribute.UID<'api::article.article', 'title'>;
     cover: Attribute.Media;
     category: Attribute.Relation<
@@ -875,6 +875,11 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       'api::assistant.assistant',
       'oneToMany',
       'api::interview.interview'
+    >;
+    users: Attribute.Relation<
+      'api::assistant.assistant',
+      'manyToOne',
+      'plugin::users-permissions.user'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1055,7 +1060,6 @@ export interface ApiHumanHuman extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    user_id: Attribute.String & Attribute.Unique;
     telegram_handle: Attribute.String & Attribute.Unique;
     demographics: Attribute.JSON;
     interviews: Attribute.Relation<
@@ -1071,6 +1075,7 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       'oneToMany',
       'api::article.article'
     >;
+    user_id: Attribute.BigInteger & Attribute.Unique;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1102,7 +1107,7 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
   attributes: {
     thread_id: Attribute.String & Attribute.Unique;
     last_review: Attribute.DateTime;
-    review_threshold: Attribute.Integer;
+    last_length: Attribute.Integer & Attribute.DefaultTo<0>;
     transcript: Attribute.JSON;
     result: Attribute.JSON;
     assistant: Attribute.Relation<
@@ -1125,6 +1130,8 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
       'manyToOne',
       'api::author.author'
     >;
+    is_active: Attribute.Boolean & Attribute.DefaultTo<true>;
+    chat_id: Attribute.UID;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1309,10 +1316,10 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::article.article': ApiArticleArticle;
       'api::assistant.assistant': ApiAssistantAssistant;
       'api::author.author': ApiAuthorAuthor;

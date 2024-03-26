@@ -18,7 +18,6 @@
     },
     "description": {
       "type": "text",
-      "maxLength": 256,
       "required": true
     },
     "slug": {
