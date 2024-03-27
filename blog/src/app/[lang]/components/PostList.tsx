@@ -73,7 +73,7 @@ export default function PostList({
               key={article.id}
               className="max-w-sm mx-auto group hover:no-underline focus:no-underline lg:w-[300px] xl:min-w-[375px] rounded-2xl overflow-hidden"
             >
-              <div className="relative flex items-center justify-center" style={{ height: '500px' }}>
+              <div className="relative flex items-center justify-center">
                 <div className="p-6 space-y-2">
                   <div>
                     <h3 className="text-2xl text-center font-semibold group-hover:underline group-focus:underline">
@@ -92,6 +92,9 @@ export default function PostList({
                     <div className="mx-auto">
                       
       <div className="flex flex-col text-center">
+      <div className="text-xs dark:text-gray-400">
+          <span>Defination of</span>
+        </div>
         <div className="text-s dark:text-gray-400">
           {authorsBio && (
             <span>{authorsBio.name}</span>
