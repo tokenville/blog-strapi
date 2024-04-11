@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "integrations",
+  "info": {
+    "singularName": "integration",
+    "pluralName": "integrations",
+    "displayName": "Integration",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "auth_token": {
+      "type": "string"
+    },
+    "base": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "integrations"
+    },
+    "assistant": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::assistant.assistant",
+      "inversedBy": "integration"
+    },
+    "Destination": {
+      "type": "enumeration",
+      "enum": [
+        "Airtable",
+        "Google Spreadsheet",
+        "defhuman"
+      ]
+    },
+    "table": {
+      "type": "string"
+    },
+    "headers": {
+      "type": "json"
+    },
+    "data_quality_treshold": {
+      "type": "integer",
+      "default": 2,
+      "min": 1,
+      "max": 10
+    }
+  }
+}

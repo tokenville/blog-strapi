@@ -59,6 +59,22 @@
     },
     "chat_id": {
       "type": "uid"
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "interviews"
+    },
+    "data_quality": {
+      "type": "integer",
+      "default": 1,
+      "max": 10,
+      "min": 1
+    },
+    "chat_task": {
+      "type": "string",
+      "unique": true
     }
   }
 }

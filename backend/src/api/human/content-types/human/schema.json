@@ -52,6 +52,12 @@
     "user_id": {
       "type": "biginteger",
       "unique": true
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "humans"
     }
   }
 }

@@ -70,6 +70,24 @@
       "relation": "oneToMany",
       "target": "api::assistant.assistant",
       "mappedBy": "users"
+    },
+    "humans": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::human.human",
+      "mappedBy": "owner"
+    },
+    "interviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::interview.interview",
+      "mappedBy": "owner"
+    },
+    "integrations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::integration.integration",
+      "mappedBy": "owner"
     }
   }
 }
