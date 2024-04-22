@@ -770,11 +770,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    assistants: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::assistant.assistant'
-    >;
     humans: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
@@ -790,6 +785,12 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::integration.integration'
     >;
+    assistants: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::assistant.assistant'
+    >;
+    stripeCustomerId: Attribute.String & Attribute.Unique;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -891,7 +892,7 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       'oneToMany',
       'api::interview.interview'
     >;
-    users: Attribute.Relation<
+    owner: Attribute.Relation<
       'api::assistant.assistant',
       'manyToOne',
       'plugin::users-permissions.user'
@@ -909,11 +910,21 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       Attribute.SetMinMax<
         {
           min: 0;
-          max: 2880;
+          max: 86400;
         },
         number
       > &
       Attribute.DefaultTo<0>;
+    base_assistant: Attribute.Relation<
+      'api::assistant.assistant',
+      'manyToOne',
+      'api::base-assistant.base-assistant'
+    >;
+    tone: Attribute.Relation<
+      'api::assistant.assistant',
+      'manyToOne',
+      'api::tone.tone'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -963,6 +974,42 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::author.author',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
+  collectionName: 'base_assistants';
+  info: {
+    singularName: 'base-assistant';
+    pluralName: 'base-assistants';
+    displayName: 'Base Assistant';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    task: Attribute.String & Attribute.Required & Attribute.Unique;
+    baseprompt: Attribute.Text;
+    baseschema: Attribute.JSON;
+    assistants: Attribute.Relation<
+      'api::base-assistant.base-assistant',
+      'oneToMany',
+      'api::assistant.assistant'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::base-assistant.base-assistant',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::base-assistant.base-assistant',
       'oneToOne',
       'admin::user'
     > &
@@ -1410,6 +1457,34 @@ export interface ApiProductFeatureProductFeature extends Schema.CollectionType {
   };
 }
 
+export interface ApiToneTone extends Schema.CollectionType {
+  collectionName: 'tones';
+  info: {
+    singularName: 'tone';
+    pluralName: 'tones';
+    displayName: 'Tone';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    tone: Attribute.String & Attribute.Required & Attribute.Unique;
+    toneprompt: Attribute.Text;
+    assistants: Attribute.Relation<
+      'api::tone.tone',
+      'oneToMany',
+      'api::assistant.assistant'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::tone.tone', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::tone.tone', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1431,6 +1506,7 @@ declare module '@strapi/types' {
       'api::article.article': ApiArticleArticle;
       'api::assistant.assistant': ApiAssistantAssistant;
       'api::author.author': ApiAuthorAuthor;
+      'api::base-assistant.base-assistant': ApiBaseAssistantBaseAssistant;
       'api::category.category': ApiCategoryCategory;
       'api::global.global': ApiGlobalGlobal;
       'api::human.human': ApiHumanHuman;
@@ -1439,6 +1515,7 @@ declare module '@strapi/types' {
       'api::lead-form-submission.lead-form-submission': ApiLeadFormSubmissionLeadFormSubmission;
       'api::page.page': ApiPagePage;
       'api::product-feature.product-feature': ApiProductFeatureProductFeature;
+      'api::tone.tone': ApiToneTone;
     }
   }
 }

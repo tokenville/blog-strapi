@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "base_assistants",
+  "info": {
+    "singularName": "base-assistant",
+    "pluralName": "base-assistants",
+    "displayName": "Base Assistant"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "task": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "baseprompt": {
+      "type": "text"
+    },
+    "baseschema": {
+      "type": "json"
+    },
+    "assistants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::assistant.assistant",
+      "mappedBy": "base_assistant"
+    }
+  }
+}

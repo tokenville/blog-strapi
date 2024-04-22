@@ -65,12 +65,6 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "assistants": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::assistant.assistant",
-      "mappedBy": "users"
-    },
     "humans": {
       "type": "relation",
       "relation": "oneToMany",
@@ -88,6 +82,16 @@
       "relation": "oneToMany",
       "target": "api::integration.integration",
       "mappedBy": "owner"
+    },
+    "assistants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::assistant.assistant",
+      "mappedBy": "owner"
+    },
+    "stripeCustomerId": {
+      "type": "string",
+      "unique": true
     }
   }
 }

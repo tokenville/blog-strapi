@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tones",
+  "info": {
+    "singularName": "tone",
+    "pluralName": "tones",
+    "displayName": "Tone",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "tone": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "toneprompt": {
+      "type": "text"
+    },
+    "assistants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::assistant.assistant",
+      "mappedBy": "tone"
+    }
+  }
+}
