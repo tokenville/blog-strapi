@@ -18,8 +18,8 @@
     "interviewer_prompt": {
       "type": "string"
     },
-    "requester_prompt": {
-      "type": "string"
+    "clients_brief": {
+      "type": "text"
     },
     "publisher_prompt": {
       "type": "string"

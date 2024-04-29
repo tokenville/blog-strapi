@@ -881,7 +881,7 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
   attributes: {
     welcomemessage: Attribute.String;
     interviewer_prompt: Attribute.String;
-    requester_prompt: Attribute.String;
+    clients_brief: Attribute.Text;
     publisher_prompt: Attribute.String;
     telegramtoken: Attribute.String & Attribute.Unique;
     gpt_id: Attribute.String & Attribute.Unique;
@@ -987,19 +987,21 @@ export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
     singularName: 'base-assistant';
     pluralName: 'base-assistants';
     displayName: 'Base Assistant';
+    description: '';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
     task: Attribute.String & Attribute.Required & Attribute.Unique;
-    baseprompt: Attribute.Text;
+    communicator_prompt: Attribute.Text;
     baseschema: Attribute.JSON;
     assistants: Attribute.Relation<
       'api::base-assistant.base-assistant',
       'oneToMany',
       'api::assistant.assistant'
     >;
+    analyst_prompt: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

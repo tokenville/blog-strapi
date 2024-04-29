@@ -4,7 +4,8 @@
   "info": {
     "singularName": "base-assistant",
     "pluralName": "base-assistants",
-    "displayName": "Base Assistant"
+    "displayName": "Base Assistant",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -16,7 +17,7 @@
       "unique": true,
       "required": true
     },
-    "baseprompt": {
+    "communicator_prompt": {
       "type": "text"
     },
     "baseschema": {
@@ -27,6 +28,9 @@
       "relation": "oneToMany",
       "target": "api::assistant.assistant",
       "mappedBy": "base_assistant"
+    },
+    "analyst_prompt": {
+      "type": "text"
     }
   }
 }
