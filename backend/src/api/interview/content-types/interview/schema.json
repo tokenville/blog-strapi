@@ -72,9 +72,12 @@
       "max": 10,
       "min": 1
     },
-    "chat_task": {
-      "type": "string",
+    "summary": {
+      "type": "text",
       "unique": true
+    },
+    "title": {
+      "type": "string"
     }
   }
 }

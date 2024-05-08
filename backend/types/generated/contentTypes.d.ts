@@ -879,7 +879,8 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    welcomemessage: Attribute.String;
+    welcomemessage: Attribute.String &
+      Attribute.DefaultTo<"Welcome! You're about to chat with a smart AI assistant skilled in lively, unscripted interviews. Note: All conversations are recorded for analytics purposes. Ready for an exciting and insightful experience? Send your first message now!">;
     interviewer_prompt: Attribute.String;
     clients_brief: Attribute.Text;
     publisher_prompt: Attribute.String;
@@ -1288,7 +1289,8 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
         number
       > &
       Attribute.DefaultTo<1>;
-    chat_task: Attribute.String & Attribute.Unique;
+    summary: Attribute.Text & Attribute.Unique;
+    title: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
