@@ -45,10 +45,56 @@
       "target": "api::interview.interview",
       "mappedBy": "assistant"
     },
-    "users": {
+    "owner": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
+      "inversedBy": "assistants"
+    },
+    "bot_name": {
+      "type": "string",
+      "default": "Untitled Telegram Bot"
+    },
+    "bot_description": {
+      "type": "text"
+    },
+    "bot_about": {
+      "type": "text"
+    },
+    "botpic": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "integration": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::integration.integration",
+      "mappedBy": "assistant"
+    },
+    "reactivation_after": {
+      "type": "integer",
+      "default": 0,
+      "required": false,
+      "min": 0,
+      "max": 86400
+    },
+    "base_assistant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::base-assistant.base-assistant",
+      "inversedBy": "assistants"
+    },
+    "tone": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::tone.tone",
       "inversedBy": "assistants"
     }
   }

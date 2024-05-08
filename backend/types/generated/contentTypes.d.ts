@@ -770,11 +770,27 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    humans: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::human.human'
+    >;
+    interviews: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::interview.interview'
+    >;
+    integrations: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::integration.integration'
+    >;
     assistants: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::assistant.assistant'
     >;
+    stripeCustomerId: Attribute.String & Attribute.Unique;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -876,10 +892,38 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       'oneToMany',
       'api::interview.interview'
     >;
-    users: Attribute.Relation<
+    owner: Attribute.Relation<
       'api::assistant.assistant',
       'manyToOne',
       'plugin::users-permissions.user'
+    >;
+    bot_name: Attribute.String & Attribute.DefaultTo<'Untitled Telegram Bot'>;
+    bot_description: Attribute.Text;
+    bot_about: Attribute.Text;
+    botpic: Attribute.Media;
+    integration: Attribute.Relation<
+      'api::assistant.assistant',
+      'oneToOne',
+      'api::integration.integration'
+    >;
+    reactivation_after: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+          max: 86400;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
+    base_assistant: Attribute.Relation<
+      'api::assistant.assistant',
+      'manyToOne',
+      'api::base-assistant.base-assistant'
+    >;
+    tone: Attribute.Relation<
+      'api::assistant.assistant',
+      'manyToOne',
+      'api::tone.tone'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -930,6 +974,42 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::author.author',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
+  collectionName: 'base_assistants';
+  info: {
+    singularName: 'base-assistant';
+    pluralName: 'base-assistants';
+    displayName: 'Base Assistant';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    task: Attribute.String & Attribute.Required & Attribute.Unique;
+    baseprompt: Attribute.Text;
+    baseschema: Attribute.JSON;
+    assistants: Attribute.Relation<
+      'api::base-assistant.base-assistant',
+      'oneToMany',
+      'api::assistant.assistant'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::base-assistant.base-assistant',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::base-assistant.base-assistant',
       'oneToOne',
       'admin::user'
     > &
@@ -1076,6 +1156,11 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       'api::article.article'
     >;
     user_id: Attribute.BigInteger & Attribute.Unique;
+    owner: Attribute.Relation<
+      'api::human.human',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1086,6 +1171,61 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::human.human',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiIntegrationIntegration extends Schema.CollectionType {
+  collectionName: 'integrations';
+  info: {
+    singularName: 'integration';
+    pluralName: 'integrations';
+    displayName: 'Integration';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    auth_token: Attribute.String;
+    base: Attribute.String;
+    owner: Attribute.Relation<
+      'api::integration.integration',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    assistant: Attribute.Relation<
+      'api::integration.integration',
+      'oneToOne',
+      'api::assistant.assistant'
+    >;
+    Destination: Attribute.Enumeration<
+      ['Airtable', 'Google Spreadsheet', 'defhuman']
+    >;
+    table: Attribute.String;
+    headers: Attribute.JSON;
+    data_quality_treshold: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 10;
+        },
+        number
+      > &
+      Attribute.DefaultTo<2>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::integration.integration',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::integration.integration',
       'oneToOne',
       'admin::user'
     > &
@@ -1132,6 +1272,21 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
     >;
     is_active: Attribute.Boolean & Attribute.DefaultTo<true>;
     chat_id: Attribute.UID;
+    owner: Attribute.Relation<
+      'api::interview.interview',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    data_quality: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 10;
+        },
+        number
+      > &
+      Attribute.DefaultTo<1>;
+    chat_task: Attribute.String & Attribute.Unique;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1302,6 +1457,34 @@ export interface ApiProductFeatureProductFeature extends Schema.CollectionType {
   };
 }
 
+export interface ApiToneTone extends Schema.CollectionType {
+  collectionName: 'tones';
+  info: {
+    singularName: 'tone';
+    pluralName: 'tones';
+    displayName: 'Tone';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    tone: Attribute.String & Attribute.Required & Attribute.Unique;
+    toneprompt: Attribute.Text;
+    assistants: Attribute.Relation<
+      'api::tone.tone',
+      'oneToMany',
+      'api::assistant.assistant'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::tone.tone', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::tone.tone', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1323,13 +1506,16 @@ declare module '@strapi/types' {
       'api::article.article': ApiArticleArticle;
       'api::assistant.assistant': ApiAssistantAssistant;
       'api::author.author': ApiAuthorAuthor;
+      'api::base-assistant.base-assistant': ApiBaseAssistantBaseAssistant;
       'api::category.category': ApiCategoryCategory;
       'api::global.global': ApiGlobalGlobal;
       'api::human.human': ApiHumanHuman;
+      'api::integration.integration': ApiIntegrationIntegration;
       'api::interview.interview': ApiInterviewInterview;
       'api::lead-form-submission.lead-form-submission': ApiLeadFormSubmissionLeadFormSubmission;
       'api::page.page': ApiPagePage;
       'api::product-feature.product-feature': ApiProductFeatureProductFeature;
+      'api::tone.tone': ApiToneTone;
     }
   }
 }
