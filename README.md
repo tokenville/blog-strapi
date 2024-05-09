@@ -1,137 +1,57 @@
-# Blog using Next.js and Strapi
+# 🚀 Getting started with Strapi
 
-[**TUTORIAL LINK**](https://strapi.io/blog/build-a-blog-with-next-react-js-strapi)
+Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
 
-> **NOTE:**
-> 
-> *This project is based on the [Strapi Starter Next 13, Tailwind, Typescript, and Strapi]() made by [Trecia](https://github.com/TreciaKS), [Daniel](https://github.com/malgamves) and [Paul](https://github.com/PaulBratslavsky) from the Strapi Team.*
+### `develop`
 
-## Introduction
+Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
 
-This project is a code repo for the Strapi blog article [Build a blog with Next.js and Strapi](https://strapi.io/blog/build-a-blog-with-next-react-js-strapi).
-
-## Getting Started
-
-1. Clone the repo locally:
-
-```bash
-git clone https://github.com/Marktawa/blog-strapi
 ```
-
-2. Set up backend dependencies:
-
-```bash
-cd blog-strapi
-cd backend
-yarn
-```
-
-3. Set up environment variables:
-
-```bash
-cp .env.example .env
-```
-
-4. Start your project by running the following command:
-
-```bash
-  yarn build
-  yarn develop
-```
-
-Create your first admin user.
-
-![admin-user](https://user-images.githubusercontent.com/6153188/231865420-5f03a90f-b893-4057-9634-9632920a7d97.gif)
-
-## Seeding the Data
-
-At the root of our project, we have our `seed-schema.tar` file. We will use it to update the schema for our Strapi app.
-
-1. Go back to your terminal and stop your Strapi backend server by pressing `CTRL` plus `C` on your keyboard.
-   
-2. Run the following command in the root of your project folder `blog-strapi` to update the schema:
-
-```bash
-tar xvf seed-schema.tar -C backend
-```
-3. Import data into your backend's database:
-
-```bash
-cd backend
-yarn strapi import -f ../seed-data.tar.gz
-```
-
-Answer `y` to `The import will delete all assets and data in your database. Are you sure you want to proceed? (y/N)`
-
-4. After a successful import, rerun your Strapi backend server. 
-
-```bash
+npm run develop
+# or
 yarn develop
 ```
 
-In your browser, log in to your admin panel. You should see the newly imported `content` and `collection types`.
+### `start`
 
-![after-import](https://user-images.githubusercontent.com/6153188/231865491-05cb5818-a0d0-49ce-807e-a879f7e3070c.gif)
+Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
 
-## Frontend Setup
-
-1. Open up a new terminal session and navigate into your `frontend` folder. Set up frontend dependencies:
-
-```bash
-cd frontend
-yarn
 ```
-2. Create `.env` file:
-
-```bash
-touch .env
+npm run start
+# or
+yarn start
 ```
 
-3. Paste in the following. 
+### `build`
 
-```yaml
-NEXT_PUBLIC_STRAPI_API_TOKEN=your-api-token
-NEXT_PUBLIC_PAGE_LIMIT=6
-NEXT_PUBLIC_STRAPI_API_URL=http://127.0.0.1:1337
+Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
+
 ```
-4. Before starting our Next JS app we need to go inside our Strapi Admin and create a token that we will be using for displaying our **content**.
-
-Inside your Strapi Admin Panel navigate to `Settings` -> `API Tokens` and click on the `Create new API Token`.
-
-![api-tokens](https://user-images.githubusercontent.com/6153188/231865572-cebc5538-374c-4050-91cd-c303fae25a3d.png)
-
-Here are our Token Settings
-
-Name: Public API Token Content
-Description: Access to public content.
-Token duration: Unlimited
-Token type: Custom
-
-In Permissions let's give the following access.
-
-| Content         |   Permissions    |
-| --------------- | :--------------: |
-| Article         | find and findOne |
-| Author          | find and findOne |
-| Category        | find and findOne |
-| Global          |       find       |
-| Page            | find and findOne |
-| Product-feature | find and findOne |
-
-![permissions](https://user-images.githubusercontent.com/6153188/231865625-a3634d89-0f40-4a6d-a356-8f654abd88b9.gif)
-
-Once you have your token add it to your `NEXT_PUBLIC_STRAPI_API_TOKEN` variable name in the `.env` file.
-
-5. Start your frontend
-
-```bash
-yarn dev
+npm run build
+# or
+yarn build
 ```
 
+## ⚙️ Deployment
 
+Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
 
+## 📚 Learn more
 
+- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
+- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
+- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
+- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
+- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
 
+Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
 
+## ✨ Community
 
+- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
+- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
+- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
 
+---
+
+<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
