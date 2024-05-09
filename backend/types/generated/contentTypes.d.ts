@@ -879,9 +879,10 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    welcomemessage: Attribute.String;
+    welcomemessage: Attribute.String &
+      Attribute.DefaultTo<"Welcome! You're about to chat with a smart AI assistant skilled in lively, unscripted interviews. Note: All conversations are recorded for analytics purposes. Ready for an exciting and insightful experience? Send your first message now!">;
     interviewer_prompt: Attribute.String;
-    requester_prompt: Attribute.String;
+    clients_brief: Attribute.Text;
     publisher_prompt: Attribute.String;
     telegramtoken: Attribute.String & Attribute.Unique;
     gpt_id: Attribute.String & Attribute.Unique;
@@ -987,19 +988,31 @@ export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
     singularName: 'base-assistant';
     pluralName: 'base-assistants';
     displayName: 'Base Assistant';
+<<<<<<< HEAD
+=======
+    description: '';
+>>>>>>> saas
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
     task: Attribute.String & Attribute.Required & Attribute.Unique;
+<<<<<<< HEAD
     baseprompt: Attribute.Text;
+=======
+    communicator_prompt: Attribute.Text;
+>>>>>>> saas
     baseschema: Attribute.JSON;
     assistants: Attribute.Relation<
       'api::base-assistant.base-assistant',
       'oneToMany',
       'api::assistant.assistant'
     >;
+<<<<<<< HEAD
+=======
+    analyst_prompt: Attribute.Text;
+>>>>>>> saas
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1286,7 +1299,12 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
         number
       > &
       Attribute.DefaultTo<1>;
+<<<<<<< HEAD
     chat_task: Attribute.String & Attribute.Unique;
+=======
+    summary: Attribute.Text & Attribute.Unique;
+    title: Attribute.String;
+>>>>>>> saas
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

@@ -72,9 +72,18 @@
       "max": 10,
       "min": 1
     },
+<<<<<<< HEAD
     "chat_task": {
       "type": "string",
       "unique": true
+=======
+    "summary": {
+      "type": "text",
+      "unique": true
+    },
+    "title": {
+      "type": "string"
+>>>>>>> saas
     }
   }
 }

@@ -4,7 +4,12 @@
   "info": {
     "singularName": "base-assistant",
     "pluralName": "base-assistants",
+<<<<<<< HEAD
     "displayName": "Base Assistant"
+=======
+    "displayName": "Base Assistant",
+    "description": ""
+>>>>>>> saas
   },
   "options": {
     "draftAndPublish": false
@@ -16,7 +21,11 @@
       "unique": true,
       "required": true
     },
+<<<<<<< HEAD
     "baseprompt": {
+=======
+    "communicator_prompt": {
+>>>>>>> saas
       "type": "text"
     },
     "baseschema": {
@@ -27,6 +36,12 @@
       "relation": "oneToMany",
       "target": "api::assistant.assistant",
       "mappedBy": "base_assistant"
+<<<<<<< HEAD
+=======
+    },
+    "analyst_prompt": {
+      "type": "text"
+>>>>>>> saas
     }
   }
 }

@@ -13,13 +13,14 @@
   "pluginOptions": {},
   "attributes": {
     "welcomemessage": {
-      "type": "string"
+      "type": "string",
+      "default": "Welcome! You're about to chat with a smart AI assistant skilled in lively, unscripted interviews. Note: All conversations are recorded for analytics purposes. Ready for an exciting and insightful experience? Send your first message now!"
     },
     "interviewer_prompt": {
       "type": "string"
     },
-    "requester_prompt": {
-      "type": "string"
+    "clients_brief": {
+      "type": "text"
     },
     "publisher_prompt": {
       "type": "string"
