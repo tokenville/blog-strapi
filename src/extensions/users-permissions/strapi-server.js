@@ -1,5 +1,4 @@
-// Import the Stripe module
-import Stripe from 'stripe';
+
 
 module.exports = (plugin) => {
   const originalRegisterController = plugin.controllers.auth.register;
@@ -17,6 +16,8 @@ module.exports = (plugin) => {
       console.error('User or email not available after fetching:', user);
       return;
     }
+
+    const Stripe = require('stripe');
 
     // Create a new Stripe instance with your secret key
     const stripe = new Stripe(process.env.STRAPI_ADMIN_TEST_STRIPE_SECRET_KEY, {
