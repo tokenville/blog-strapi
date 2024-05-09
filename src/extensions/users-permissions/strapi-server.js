@@ -17,15 +17,9 @@ module.exports = (plugin) => {
       console.error('User or email not available after fetching:', user);
       return;
     }
-<<<<<<< HEAD
-
-    const Stripe = require('stripe');
-    const stripe = new Stripe(process.env.STRAPI_ADMIN_LIVE_STRIPE_SECRET_KEY);
-=======
     
     const Stripe = require('stripe');
     const stripe = new Stripe(process.env.STRAPI_ADMIN_TEST_STRIPE_SECRET_KEY);
->>>>>>> saas
     try {
       const stripeCustomer = await stripe.customers.create({ email: user.email });
       await strapi.entityService.update('plugin::users-permissions.user', user.id, {

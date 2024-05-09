@@ -988,31 +988,21 @@ export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
     singularName: 'base-assistant';
     pluralName: 'base-assistants';
     displayName: 'Base Assistant';
-<<<<<<< HEAD
-=======
     description: '';
->>>>>>> saas
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
     task: Attribute.String & Attribute.Required & Attribute.Unique;
-<<<<<<< HEAD
-    baseprompt: Attribute.Text;
-=======
     communicator_prompt: Attribute.Text;
->>>>>>> saas
     baseschema: Attribute.JSON;
     assistants: Attribute.Relation<
       'api::base-assistant.base-assistant',
       'oneToMany',
       'api::assistant.assistant'
     >;
-<<<<<<< HEAD
-=======
     analyst_prompt: Attribute.Text;
->>>>>>> saas
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1299,12 +1289,8 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
         number
       > &
       Attribute.DefaultTo<1>;
-<<<<<<< HEAD
-    chat_task: Attribute.String & Attribute.Unique;
-=======
     summary: Attribute.Text & Attribute.Unique;
     title: Attribute.String;
->>>>>>> saas
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
