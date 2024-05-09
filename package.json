@@ -32,5 +32,8 @@
     "node": "20.x",
     "npm": "9.x"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/stripe": "^8.0.417"
+  }
 }

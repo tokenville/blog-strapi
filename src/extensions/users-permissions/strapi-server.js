@@ -1,14 +1,14 @@
-const Stripe = require('stripe');
+// Import the Stripe module
+import Stripe from 'stripe';
 
 module.exports = (plugin) => {
-  
   const originalRegisterController = plugin.controllers.auth.register;
 
   plugin.controllers.auth.register = async (ctx) => {
     const originalResult = await originalRegisterController(ctx);
     let user = ctx.state.user || (originalResult && originalResult.user);
 
-    if (!user) {
+    if (!user && ctx.response.body && ctx.response.body.user) {
       const userId = ctx.response.body.user.id;
       user = await strapi.entityService.findOne('plugin::users-permissions.user', userId);
     }
@@ -17,9 +17,12 @@ module.exports = (plugin) => {
       console.error('User or email not available after fetching:', user);
       return;
     }
-    
-    const Stripe = require('stripe');
-    const stripe = new Stripe(process.env.STRAPI_ADMIN_TEST_STRIPE_SECRET_KEY);
+
+    // Create a new Stripe instance with your secret key
+    const stripe = new Stripe(process.env.STRAPI_ADMIN_TEST_STRIPE_SECRET_KEY, {
+      apiVersion: '2024-04-10'  // Ensure you specify the API version
+    });
+
     try {
       const stripeCustomer = await stripe.customers.create({ email: user.email });
       await strapi.entityService.update('plugin::users-permissions.user', user.id, {
@@ -37,7 +40,6 @@ module.exports = (plugin) => {
     return ctx.send({ email: user.email, stripeCustomerId: user.stripeCustomerId });
   };
 
-  // Correct way to add routes
   if (!plugin.routes['content-api']) {
     plugin.routes['content-api'] = { routes: [] };
   }
