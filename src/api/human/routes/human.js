@@ -28,7 +28,6 @@ module.exports = {
       path: '/humans/:id', // Standard DELETE route
       handler: 'human.delete',
     },
-    // Your custom route for counting
     {
       method: 'GET',
       path: '/humans/count/view', // Custom path for count

@@ -1,5 +1,7 @@
 module.exports = ({ env }) => ({
-    // ...
+    "strapi-google-auth": {
+        enabled: true,
+      },
     upload: {
       config: {
         provider: 'aws-s3', // For community providers pass the full package name (e.g. provider: 'strapi-provider-upload-google-cloud-storage')

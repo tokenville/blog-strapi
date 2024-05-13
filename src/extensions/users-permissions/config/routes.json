@@ -1,0 +1,13 @@
+{
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/auth/get-user-details",
+        "handler": "auth.getUserDetails",
+        "config": {
+          "policies": [],
+          "auth": true
+        }
+      }
+    ]
+  }
