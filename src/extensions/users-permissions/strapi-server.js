@@ -1,5 +1,3 @@
-
-
 module.exports = (plugin) => {
   const originalRegisterController = plugin.controllers.auth.register;
 
@@ -18,10 +16,8 @@ module.exports = (plugin) => {
     }
 
     const Stripe = require('stripe');
-
-    // Create a new Stripe instance with your secret key
     const stripe = new Stripe(process.env.STRAPI_ADMIN_TEST_STRIPE_SECRET_KEY, {
-      apiVersion: '2024-04-10'  // Ensure you specify the API version
+      apiVersion: '2024-04-10'
     });
 
     try {
@@ -44,6 +40,13 @@ module.exports = (plugin) => {
   if (!plugin.routes['content-api']) {
     plugin.routes['content-api'] = { routes: [] };
   }
+
+  // Correcting the auth object in the route configuration
+  plugin.routes['content-api'].routes.push({
+    method: 'GET',
+    path: '/auth/get-user-details',
+    handler: 'auth.getUserDetails'
+  });
 
   return plugin;
 };
