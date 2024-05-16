@@ -1,12 +1,13 @@
 module.exports = [
   {
-    settings: {
-      cors: {
-        enabled: true,
-        origin: ['https://8d-1.com', 'https://www.8d-1.com', 'https://api.8d-1.com', 'https://www.api.8d-1.com', 'http://localhost:3000'], 
-        headers: ['Content-Type', 'Authorization', 'X-Frame-Options'],
-      },
+    name: 'strapi::cors',
+    config: {
+      enabled: true,
+      origin: ['https://8d-1.com', 'https://www.8d-1.com', 'https://api.8d-1.com', 'https://www.api.8d-1.com', 'http://localhost:3000'],
+      headers: ['Content-Type', 'Authorization', 'X-Frame-Options'],
     },
+  },
+  {
     name: 'strapi::security',
     config: {
       contentSecurityPolicy: {
@@ -32,7 +33,6 @@ module.exports = [
       },
     },
   },
-  'strapi::cors',
   'strapi::poweredBy',
   'strapi::logger',
   'strapi::query',
