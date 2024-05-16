@@ -33,6 +33,7 @@ module.exports = [
       },
     },
   },
+  'strapi::errors',
   'strapi::poweredBy',
   'strapi::logger',
   'strapi::query',
