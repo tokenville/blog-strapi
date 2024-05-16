@@ -1,10 +1,14 @@
     // ~/strapi-aws-s3/backend/config/middlewares.js
     
     module.exports = [
-      'strapi::errors',
-      /* Replace 'strapi::security', with this snippet */
-      /* Beginning of snippet */
-      {
+    {
+      settings: {
+        cors: {
+          enabled: true,
+          origin: ['https://8d-1.com', 'https://www.8d-1.com', 'https://api.8d-1.com', 'https://www.api.8d-1.com', 'http://localhost:3000'], 
+          headers: ['Content-Type', 'Authorization', 'X-Frame-Options'],
+        },
+      },
         name: 'strapi::security',
         config: {
           contentSecurityPolicy: {
