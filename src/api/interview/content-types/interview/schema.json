@@ -47,12 +47,6 @@
       "target": "api::article.article",
       "inversedBy": "interview"
     },
-    "author": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::author.author",
-      "inversedBy": "interviews"
-    },
     "is_active": {
       "type": "boolean",
       "default": true

@@ -814,11 +814,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    humans: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::human.human'
-    >;
     interviews: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
@@ -835,6 +830,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'api::assistant.assistant'
     >;
     stripeCustomerId: Attribute.String & Attribute.Unique;
+    humans: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::human.human'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -869,11 +869,6 @@ export interface ApiArticleArticle extends Schema.CollectionType {
     description: Attribute.Text & Attribute.Required;
     slug: Attribute.UID<'api::article.article', 'title'>;
     cover: Attribute.Media;
-    category: Attribute.Relation<
-      'api::article.article',
-      'manyToOne',
-      'api::category.category'
-    >;
     blocks: Attribute.DynamicZone<
       [
         'shared.media',
@@ -987,45 +982,6 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
   };
 }
 
-export interface ApiAuthorAuthor extends Schema.CollectionType {
-  collectionName: 'authors';
-  info: {
-    singularName: 'author';
-    pluralName: 'authors';
-    displayName: 'Author';
-    description: 'Create authors for your content';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    name: Attribute.String;
-    avatar: Attribute.Media;
-    email: Attribute.String;
-    telegram_handle: Attribute.String & Attribute.Unique;
-    interviews: Attribute.Relation<
-      'api::author.author',
-      'oneToMany',
-      'api::interview.interview'
-    >;
-    user_id: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::author.author',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::author.author',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
   collectionName: 'base_assistants';
   info: {
@@ -1064,36 +1020,32 @@ export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
   };
 }
 
-export interface ApiCategoryCategory extends Schema.CollectionType {
-  collectionName: 'categories';
+export interface ApiEmailTemplateEmailTemplate extends Schema.CollectionType {
+  collectionName: 'email_templates';
   info: {
-    singularName: 'category';
-    pluralName: 'categories';
-    displayName: 'Category';
-    description: 'Organize your content into categories';
+    singularName: 'email-template';
+    pluralName: 'email-templates';
+    displayName: 'EmailTemplate';
+    description: '';
   };
   options: {
-    draftAndPublish: false;
+    draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String;
-    slug: Attribute.UID;
-    articles: Attribute.Relation<
-      'api::category.category',
-      'oneToMany',
-      'api::article.article'
-    >;
-    description: Attribute.Text;
+    subject: Attribute.String &
+      Attribute.DefaultTo<'A new message from your 8D-1...'>;
+    body: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::category.category',
+      'api::email-template.email-template',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::category.category',
+      'api::email-template.email-template',
       'oneToOne',
       'admin::user'
     > &
@@ -1203,9 +1155,9 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       'api::article.article'
     >;
     user_id: Attribute.BigInteger & Attribute.Unique;
-    owner: Attribute.Relation<
+    owners: Attribute.Relation<
       'api::human.human',
-      'manyToOne',
+      'manyToMany',
       'plugin::users-permissions.user'
     >;
     createdAt: Attribute.DateTime;
@@ -1312,11 +1264,6 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
       'oneToOne',
       'api::article.article'
     >;
-    author: Attribute.Relation<
-      'api::interview.interview',
-      'manyToOne',
-      'api::author.author'
-    >;
     is_active: Attribute.Boolean & Attribute.DefaultTo<true>;
     chat_id: Attribute.UID;
     owner: Attribute.Relation<
@@ -1345,159 +1292,6 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::interview.interview',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiLeadFormSubmissionLeadFormSubmission
-  extends Schema.CollectionType {
-  collectionName: 'lead_form_submissions';
-  info: {
-    singularName: 'lead-form-submission';
-    pluralName: 'lead-form-submissions';
-    displayName: 'Lead form submission';
-    name: 'lead-form-submission';
-    description: '';
-  };
-  options: {
-    increments: true;
-    timestamps: true;
-    draftAndPublish: false;
-  };
-  attributes: {
-    email: Attribute.String;
-    status: Attribute.Enumeration<['seen', 'contacted', 'ignored']>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::lead-form-submission.lead-form-submission',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::lead-form-submission.lead-form-submission',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiPagePage extends Schema.CollectionType {
-  collectionName: 'pages';
-  info: {
-    singularName: 'page';
-    pluralName: 'pages';
-    displayName: 'Page';
-    name: 'page';
-    description: '';
-  };
-  options: {
-    increments: true;
-    timestamps: true;
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    shortName: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    metadata: Attribute.Component<'meta.metadata'> &
-      Attribute.Required &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    contentSections: Attribute.DynamicZone<
-      [
-        'sections.hero',
-        'sections.bottom-actions',
-        'sections.feature-columns-group',
-        'sections.feature-rows-group',
-        'sections.testimonials-group',
-        'sections.large-video',
-        'sections.rich-text',
-        'sections.pricing',
-        'sections.lead-form',
-        'sections.features',
-        'sections.heading'
-      ]
-    > &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    slug: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: false;
-        };
-      }>;
-    heading: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    description: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    localizations: Attribute.Relation<
-      'api::page.page',
-      'oneToMany',
-      'api::page.page'
-    >;
-    locale: Attribute.String;
-  };
-}
-
-export interface ApiProductFeatureProductFeature extends Schema.CollectionType {
-  collectionName: 'product_features';
-  info: {
-    singularName: 'product-feature';
-    pluralName: 'product-features';
-    displayName: 'Product Feature';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String & Attribute.Required;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::product-feature.product-feature',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::product-feature.product-feature',
       'oneToOne',
       'admin::user'
     > &
@@ -1554,16 +1348,12 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::article.article': ApiArticleArticle;
       'api::assistant.assistant': ApiAssistantAssistant;
-      'api::author.author': ApiAuthorAuthor;
       'api::base-assistant.base-assistant': ApiBaseAssistantBaseAssistant;
-      'api::category.category': ApiCategoryCategory;
+      'api::email-template.email-template': ApiEmailTemplateEmailTemplate;
       'api::global.global': ApiGlobalGlobal;
       'api::human.human': ApiHumanHuman;
       'api::integration.integration': ApiIntegrationIntegration;
       'api::interview.interview': ApiInterviewInterview;
-      'api::lead-form-submission.lead-form-submission': ApiLeadFormSubmissionLeadFormSubmission;
-      'api::page.page': ApiPagePage;
-      'api::product-feature.product-feature': ApiProductFeatureProductFeature;
       'api::tone.tone': ApiToneTone;
     }
   }

@@ -105,11 +105,6 @@ export interface ElementsPlan extends Schema.Component {
     isRecommended: Attribute.Boolean;
     price: Attribute.Decimal;
     pricePeriod: Attribute.String;
-    product_features: Attribute.Relation<
-      'elements.plan',
-      'oneToMany',
-      'api::product-feature.product-feature'
-    >;
   };
 }
 
@@ -139,11 +134,6 @@ export interface LayoutFooter extends Schema.Component {
     menuLinks: Attribute.Component<'links.link', true>;
     legalLinks: Attribute.Component<'links.link', true>;
     socialLinks: Attribute.Component<'links.social-link', true>;
-    categories: Attribute.Relation<
-      'layout.footer',
-      'oneToMany',
-      'api::category.category'
-    >;
   };
 }
 

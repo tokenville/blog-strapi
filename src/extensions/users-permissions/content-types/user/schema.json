@@ -65,12 +65,6 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "humans": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::human.human",
-      "mappedBy": "owner"
-    },
     "interviews": {
       "type": "relation",
       "relation": "oneToMany",
@@ -92,6 +86,12 @@
     "stripeCustomerId": {
       "type": "string",
       "unique": true
+    },
+    "humans": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::human.human",
+      "mappedBy": "owners"
     }
   }
 }

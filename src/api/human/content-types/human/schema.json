@@ -53,9 +53,9 @@
       "type": "biginteger",
       "unique": true
     },
-    "owner": {
+    "owners": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "humans"
     }
