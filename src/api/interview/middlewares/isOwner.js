@@ -29,15 +29,10 @@ module.exports = (config, { strapi }) => {
       return next();
     }
 
-    console.log("Entry ID:", entry.id);
-    console.log("Entry Owner ID:", entry.owner.id);
-    console.log("User ID:", user.id);
-    console.log("Authorized User ID:", entry.authorized.id);
-
-if (user.id !== entry.owner.id && user.id !== entry.authorized.id) {
-      return ctx.unauthorized("This action is unauthorized.");
-    } else {
-      return next();
-    }
+if (user.id !== entry.owner.id && entry.authorized && user.id !== entry.authorized.id) {
+    return ctx.unauthorized("This action is unauthorized.");
+  } else {
+    return next();
+}
   };
 };
