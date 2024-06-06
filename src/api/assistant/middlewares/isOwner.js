@@ -10,6 +10,7 @@ module.exports = (config, { strapi }) => {
     console.log('isOwner middleware called from assistant');
 
     if (ctx.request.headers['authorization'] === `Bearer ${process.env.ADMIN_API_KEY}`) {
+      console
       return next();
     }
 
@@ -20,8 +21,7 @@ module.exports = (config, { strapi }) => {
     if (entryId) {
       entry = await strapi.entityService.findOne(
         "api::assistant.assistant",
-        entryId,
-        { populate: "*" }
+        entryId
       );
     }
 

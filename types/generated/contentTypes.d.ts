@@ -590,6 +590,45 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginSlugifySlug extends Schema.CollectionType {
+  collectionName: 'slugs';
+  info: {
+    singularName: 'slug';
+    pluralName: 'slugs';
+    displayName: 'slug';
+  };
+  options: {
+    draftAndPublish: false;
+    comment: '';
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    slug: Attribute.Text;
+    count: Attribute.Integer;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::slugify.slug',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::slugify.slug',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginStrapiGoogleAuthGoogleCredential
   extends Schema.SingleType {
   collectionName: 'strapi-google-auth_google-credential';
@@ -814,11 +853,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    interviews: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::interview.interview'
-    >;
     integrations: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
@@ -834,6 +868,23 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'manyToMany',
       'api::human.human'
+    >;
+    name: Attribute.String;
+    interviews: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::interview.interview'
+    >;
+    alias: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::human.human'
+    >;
+    signed: Attribute.Boolean;
+    chats: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::interview.interview'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -877,11 +928,6 @@ export interface ApiArticleArticle extends Schema.CollectionType {
         'shared.slider',
         'shared.video-embed'
       ]
-    >;
-    authorsBio: Attribute.Relation<
-      'api::article.article',
-      'manyToOne',
-      'api::human.human'
     >;
     seo: Attribute.Component<'shared.seo'>;
     interview: Attribute.Relation<
@@ -937,7 +983,7 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
-    bot_name: Attribute.String & Attribute.DefaultTo<'Untitled Telegram Bot'>;
+    bot_name: Attribute.String & Attribute.Required;
     bot_description: Attribute.Text;
     bot_about: Attribute.Text;
     botpic: Attribute.Media;
@@ -965,6 +1011,7 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       'manyToOne',
       'api::tone.tone'
     >;
+    slug: Attribute.UID<'api::assistant.assistant', 'bot_name'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1140,7 +1187,6 @@ export interface ApiHumanHuman extends Schema.CollectionType {
   };
   attributes: {
     telegram_handle: Attribute.String & Attribute.Unique;
-    demographics: Attribute.JSON;
     interviews: Attribute.Relation<
       'api::human.human',
       'oneToMany',
@@ -1149,15 +1195,16 @@ export interface ApiHumanHuman extends Schema.CollectionType {
     name: Attribute.String;
     email: Attribute.String & Attribute.Unique;
     avatar: Attribute.Media;
-    articles: Attribute.Relation<
-      'api::human.human',
-      'oneToMany',
-      'api::article.article'
-    >;
-    user_id: Attribute.BigInteger & Attribute.Unique;
     owners: Attribute.Relation<
       'api::human.human',
       'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    source: Attribute.Enumeration<['telegram', 'web', 'email']>;
+    user_id: Attribute.String & Attribute.Unique;
+    alias: Attribute.Relation<
+      'api::human.human',
+      'oneToOne',
       'plugin::users-permissions.user'
     >;
     createdAt: Attribute.DateTime;
@@ -1244,7 +1291,6 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    thread_id: Attribute.String & Attribute.Unique;
     last_review: Attribute.DateTime;
     last_length: Attribute.Integer & Attribute.DefaultTo<0>;
     transcript: Attribute.JSON;
@@ -1265,7 +1311,6 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
       'api::article.article'
     >;
     is_active: Attribute.Boolean & Attribute.DefaultTo<true>;
-    chat_id: Attribute.UID;
     owner: Attribute.Relation<
       'api::interview.interview',
       'manyToOne',
@@ -1280,8 +1325,16 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
         number
       > &
       Attribute.DefaultTo<1>;
-    summary: Attribute.Text & Attribute.Unique;
-    title: Attribute.String;
+    summary: Attribute.Text &
+      Attribute.Unique &
+      Attribute.DefaultTo<'Summary is not available yet.'>;
+    title: Attribute.String & Attribute.DefaultTo<'No Title'>;
+    authorized: Attribute.Relation<
+      'api::interview.interview',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    thread_id: Attribute.UID;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1341,6 +1394,7 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::slugify.slug': PluginSlugifySlug;
       'plugin::strapi-google-auth.google-credential': PluginStrapiGoogleAuthGoogleCredential;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;

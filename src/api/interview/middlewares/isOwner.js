@@ -6,7 +6,6 @@
 
 module.exports = (config, { strapi }) => {
   return async (ctx, next) => {
-    console.log('isOwner middleware called from interview');
 
     // If the request is made with an API token, skip the ownership check
   if (ctx.request.headers['authorization'] === `Bearer ${process.env.ADMIN_API_KEY}`) {
@@ -30,11 +29,12 @@ module.exports = (config, { strapi }) => {
       return next();
     }
 
-    console.log(entry.id);
-    console.log(entry.owner.id);
-    console.log(user.id);
+    console.log("Entry ID:", entry.id);
+    console.log("Entry Owner ID:", entry.owner.id);
+    console.log("User ID:", user.id);
+    console.log("Authorized User ID:", entry.authorized.id);
 
-    if (user.id !== entry.owner.id) {
+if (user.id !== entry.owner.id && user.id !== entry.authorized.id) {
       return ctx.unauthorized("This action is unauthorized.");
     } else {
       return next();

@@ -54,7 +54,7 @@
     },
     "bot_name": {
       "type": "string",
-      "default": "Untitled Telegram Bot"
+      "required": true
     },
     "bot_description": {
       "type": "text"
@@ -97,6 +97,11 @@
       "relation": "manyToOne",
       "target": "api::tone.tone",
       "inversedBy": "assistants"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "bot_name",
+      "required": false
     }
   }
 }

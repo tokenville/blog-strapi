@@ -44,12 +44,6 @@
         "shared.video-embed"
       ]
     },
-    "authorsBio": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::human.human",
-      "inversedBy": "articles"
-    },
     "seo": {
       "type": "component",
       "repeatable": false,

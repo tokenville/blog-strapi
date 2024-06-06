@@ -8,11 +8,5 @@ module.exports = createCoreRouter("api::assistant.assistant", {
     delete: {
       middlewares: ["api::assistant.is-owner"],
     },
-    find: {
-      middlewares: ["api::assistant.is-owner"],
-    },
-    findOne: {
-      middlewares: ["api::assistant.is-owner"],
-    },
   },
 });

@@ -1,7 +1,31 @@
 // config/plugins.js
 
 module.exports = ({ env }) => ({
-  // ...
+  slugify: {
+    enabled: true,
+    config: {
+      contentTypes: {
+        assistant: {
+          field: 'slug',
+          references: 'bot_name',
+        },
+      },
+      slugifyWithCount: true,
+      shouldUpdateSlug: true,
+    },
+  },
+    email: {
+      config: {
+        provider: 'strapi-provider-email-resend',
+        providerOptions: {
+          apiKey: env('RESEND_API_KEY'), // Required
+        },
+        settings: {
+          defaultFrom: 'no-reply@x.8d-1.com',
+          defaultReplyTo: 'hello@8d-1.com',
+        },
+      }
+    },    
   upload: {
     config: {
       provider: 'aws-s3',

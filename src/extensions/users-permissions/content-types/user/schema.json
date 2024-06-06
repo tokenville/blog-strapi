@@ -65,12 +65,6 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "interviews": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::interview.interview",
-      "mappedBy": "owner"
-    },
     "integrations": {
       "type": "relation",
       "relation": "oneToMany",
@@ -92,6 +86,30 @@
       "relation": "manyToMany",
       "target": "api::human.human",
       "mappedBy": "owners"
+    },
+    "name": {
+      "type": "string"
+    },
+    "interviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::interview.interview",
+      "mappedBy": "owner"
+    },
+    "alias": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::human.human",
+      "inversedBy": "alias"
+    },
+    "signed": {
+      "type": "boolean"
+    },
+    "chats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::interview.interview",
+      "mappedBy": "authorized"
     }
   }
 }

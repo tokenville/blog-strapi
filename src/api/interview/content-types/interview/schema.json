@@ -12,10 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "thread_id": {
-      "type": "string",
-      "unique": true
-    },
     "last_review": {
       "type": "datetime"
     },
@@ -51,9 +47,6 @@
       "type": "boolean",
       "default": true
     },
-    "chat_id": {
-      "type": "uid"
-    },
     "owner": {
       "type": "relation",
       "relation": "manyToOne",
@@ -68,10 +61,21 @@
     },
     "summary": {
       "type": "text",
-      "unique": true
+      "unique": true,
+      "default": "Summary is not available yet."
     },
     "title": {
-      "type": "string"
+      "type": "string",
+      "default": "No Title"
+    },
+    "authorized": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "chats"
+    },
+    "thread_id": {
+      "type": "uid"
     }
   }
 }

@@ -16,9 +16,6 @@
       "type": "string",
       "unique": true
     },
-    "demographics": {
-      "type": "json"
-    },
     "interviews": {
       "type": "relation",
       "relation": "oneToMany",
@@ -43,21 +40,29 @@
         "audios"
       ]
     },
-    "articles": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::article.article",
-      "mappedBy": "authorsBio"
-    },
-    "user_id": {
-      "type": "biginteger",
-      "unique": true
-    },
     "owners": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "humans"
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": [
+        "telegram",
+        "web",
+        "email"
+      ]
+    },
+    "user_id": {
+      "type": "string",
+      "unique": true
+    },
+    "alias": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "alias"
     }
   }
 }

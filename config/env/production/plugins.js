@@ -1,4 +1,17 @@
+const assistant = require("../../../src/api/assistant/controllers/assistant");
+
 module.exports = ({ env }) => ({
+  slugify: {
+    enabled: true,
+    config: {
+      contentTypes: {
+        assistant: {
+          field: 'slug',
+          references: 'bot_name'
+        },
+      },
+    },
+  },
     "strapi-google-auth": {
         enabled: true,
       },
