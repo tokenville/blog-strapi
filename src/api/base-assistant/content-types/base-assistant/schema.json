@@ -31,6 +31,15 @@
     },
     "analyst_prompt": {
       "type": "text"
+    },
+    "brief_label": {
+      "type": "string"
+    },
+    "tip_message": {
+      "type": "text"
+    },
+    "placeholder": {
+      "type": "text"
     }
   }
 }

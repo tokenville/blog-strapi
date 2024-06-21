@@ -41,11 +41,13 @@ module.exports = (plugin) => {
     plugin.routes['content-api'] = { routes: [] };
   }
 
-  // Correcting the auth object in the route configuration
   plugin.routes['content-api'].routes.push({
     method: 'GET',
     path: '/auth/get-user-details',
-    handler: 'auth.getUserDetails'
+    handler: 'auth.getUserDetails',
+    config: {
+      policies: ['global::isauth'],
+    },
   });
 
   return plugin;

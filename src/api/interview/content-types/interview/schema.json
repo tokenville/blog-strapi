@@ -76,6 +76,14 @@
     },
     "thread_id": {
       "type": "uid"
+    },
+    "attachments": {
+      "allowedTypes": [
+        "images",
+        "files"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }

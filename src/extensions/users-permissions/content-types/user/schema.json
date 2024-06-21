@@ -110,6 +110,9 @@
       "relation": "oneToMany",
       "target": "api::interview.interview",
       "mappedBy": "authorized"
+    },
+    "picture": {
+      "type": "string"
     }
   }
 }

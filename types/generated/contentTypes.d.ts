@@ -886,6 +886,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::interview.interview'
     >;
+    picture: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1012,6 +1013,8 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       'api::tone.tone'
     >;
     slug: Attribute.UID<'api::assistant.assistant', 'bot_name'>;
+    client_name: Attribute.String;
+    client_overview: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1050,6 +1053,9 @@ export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
       'api::assistant.assistant'
     >;
     analyst_prompt: Attribute.Text;
+    brief_label: Attribute.String;
+    tip_message: Attribute.Text;
+    placeholder: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1335,6 +1341,7 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
       'plugin::users-permissions.user'
     >;
     thread_id: Attribute.UID;
+    attachments: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
