@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "stripe_settings",
+  "info": {
+    "singularName": "stripe-setting",
+    "pluralName": "stripe-settings",
+    "displayName": "stripe-settings"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "priceId": {
+      "type": "string"
+    },
+    "discounts": {
+      "type": "json"
+    }
+  }
+}

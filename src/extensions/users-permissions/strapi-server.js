@@ -16,18 +16,56 @@ module.exports = (plugin) => {
     }
 
     const Stripe = require('stripe');
+    // @ts-ignore
     const stripe = new Stripe(process.env.STRAPI_ADMIN_TEST_STRIPE_SECRET_KEY, {
       apiVersion: '2024-04-10'
     });
 
     try {
+      // Fetch settings from Strapi
+      const stripeSetting = await strapi.entityService.findOne('api::stripe-setting.stripe-setting', 1, {
+        fields: ['priceId', 'discounts']
+      });
+
+      console.log('Stripe setting fetched:', stripeSetting);
+
+      if (!stripeSetting) {
+        console.error('Stripe settings not found');
+        return;
+      }
+
+      // @ts-ignore
+      const { priceId, discounts } = stripeSetting;
+
+      console.log('priceId:', priceId);
+      console.log('discounts:', discounts);
+
+      if (typeof priceId !== 'string') {
+        console.error('priceId is undefined or not a string');
+        return;
+      }
+
+      // Create Stripe customer
       const stripeCustomer = await stripe.customers.create({ email: user.email });
       await strapi.entityService.update('plugin::users-permissions.user', user.id, {
         data: { stripeCustomerId: stripeCustomer.id }
       });
       console.log('Stripe customer created:', stripeCustomer.id);
+
+      // Create Stripe subscription
+      const subscriptionParams = {
+        customer: stripeCustomer.id,
+        items: [{ price: priceId }],
+      };
+
+      if (discounts && typeof discounts === 'object' && 'coupon' in discounts) {
+        subscriptionParams.discounts = [{ coupon: discounts.coupon }];
+      }
+
+      await stripe.subscriptions.create(subscriptionParams);
+      console.log('Default subscription enabled for user:', user.email);
     } catch (error) {
-      console.error('Error creating Stripe customer:', error);
+      console.error('Error creating Stripe customer or subscription:', error);
     }
   };
 

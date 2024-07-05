@@ -1359,6 +1359,80 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
   };
 }
 
+export interface ApiSpecialSpecial extends Schema.CollectionType {
+  collectionName: 'specials';
+  info: {
+    singularName: 'special';
+    pluralName: 'specials';
+    displayName: 'Special';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    title: Attribute.String;
+    star: Attribute.Relation<
+      'api::special.special',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    about_star: Attribute.Text;
+    base_assistant: Attribute.Relation<
+      'api::special.special',
+      'oneToOne',
+      'api::base-assistant.base-assistant'
+    >;
+    cover: Attribute.Media;
+    can_do: Attribute.Text;
+    slug: Attribute.UID;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::special.special',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::special.special',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiStripeSettingStripeSetting extends Schema.SingleType {
+  collectionName: 'stripe_settings';
+  info: {
+    singularName: 'stripe-setting';
+    pluralName: 'stripe-settings';
+    displayName: 'stripe-settings';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    priceId: Attribute.String;
+    discounts: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::stripe-setting.stripe-setting',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::stripe-setting.stripe-setting',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiToneTone extends Schema.CollectionType {
   collectionName: 'tones';
   info: {
@@ -1415,6 +1489,8 @@ declare module '@strapi/types' {
       'api::human.human': ApiHumanHuman;
       'api::integration.integration': ApiIntegrationIntegration;
       'api::interview.interview': ApiInterviewInterview;
+      'api::special.special': ApiSpecialSpecial;
+      'api::stripe-setting.stripe-setting': ApiStripeSettingStripeSetting;
       'api::tone.tone': ApiToneTone;
     }
   }
