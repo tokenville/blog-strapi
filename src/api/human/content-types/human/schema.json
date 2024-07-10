@@ -14,7 +14,7 @@
   "attributes": {
     "telegram_handle": {
       "type": "string",
-      "unique": true
+      "unique": false
     },
     "interviews": {
       "type": "relation",
@@ -27,7 +27,7 @@
     },
     "email": {
       "type": "string",
-      "unique": true
+      "unique": false
     },
     "avatar": {
       "type": "media",
@@ -56,7 +56,7 @@
     },
     "user_id": {
       "type": "string",
-      "unique": true
+      "unique": false
     },
     "alias": {
       "type": "relation",

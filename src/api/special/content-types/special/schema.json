@@ -39,11 +39,11 @@
         "audios"
       ]
     },
-    "can_do": {
-      "type": "text"
-    },
     "slug": {
       "type": "uid"
+    },
+    "cando": {
+      "type": "blocks"
     }
   }
 }

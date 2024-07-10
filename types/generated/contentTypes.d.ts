@@ -1192,14 +1192,14 @@ export interface ApiHumanHuman extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    telegram_handle: Attribute.String & Attribute.Unique;
+    telegram_handle: Attribute.String;
     interviews: Attribute.Relation<
       'api::human.human',
       'oneToMany',
       'api::interview.interview'
     >;
     name: Attribute.String;
-    email: Attribute.String & Attribute.Unique;
+    email: Attribute.String;
     avatar: Attribute.Media;
     owners: Attribute.Relation<
       'api::human.human',
@@ -1207,7 +1207,7 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       'plugin::users-permissions.user'
     >;
     source: Attribute.Enumeration<['telegram', 'web', 'email']>;
-    user_id: Attribute.String & Attribute.Unique;
+    user_id: Attribute.String;
     alias: Attribute.Relation<
       'api::human.human',
       'oneToOne',
@@ -1384,8 +1384,8 @@ export interface ApiSpecialSpecial extends Schema.CollectionType {
       'api::base-assistant.base-assistant'
     >;
     cover: Attribute.Media;
-    can_do: Attribute.Text;
     slug: Attribute.UID;
+    cando: Attribute.Blocks;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
