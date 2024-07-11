@@ -40,6 +40,10 @@
     },
     "placeholder": {
       "type": "text"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

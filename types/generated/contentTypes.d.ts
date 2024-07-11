@@ -1015,6 +1015,7 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
     slug: Attribute.UID<'api::assistant.assistant', 'bot_name'>;
     client_name: Attribute.String;
     client_overview: Attribute.Text;
+    customised: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1056,6 +1057,7 @@ export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
     brief_label: Attribute.String;
     tip_message: Attribute.Text;
     placeholder: Attribute.Text;
+    featured: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1207,7 +1209,7 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       'plugin::users-permissions.user'
     >;
     source: Attribute.Enumeration<['telegram', 'web', 'email']>;
-    user_id: Attribute.String;
+    user_id: Attribute.String & Attribute.Unique;
     alias: Attribute.Relation<
       'api::human.human',
       'oneToOne',
@@ -1452,6 +1454,7 @@ export interface ApiToneTone extends Schema.CollectionType {
       'oneToMany',
       'api::assistant.assistant'
     >;
+    featured: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::tone.tone', 'oneToOne', 'admin::user'> &

@@ -25,6 +25,10 @@
       "relation": "oneToMany",
       "target": "api::assistant.assistant",
       "mappedBy": "tone"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

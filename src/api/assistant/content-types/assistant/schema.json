@@ -108,6 +108,10 @@
     },
     "client_overview": {
       "type": "text"
+    },
+    "customised": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
