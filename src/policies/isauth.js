@@ -27,7 +27,7 @@ module.exports = async (policyContext, config, { strapi }) => {
     // Verify the token with the RS256 algorithm
     const decodedToken = jwt.verify(token, publicKey, {
       algorithms: ['RS256'],
-      audience: process.env.AUTH0_CLIENT_ID,
+      audience: process.env.AUTH0_AUDIENCE,
       issuer: `https://${process.env.AUTH0_DOMAIN}/`,
     });
 

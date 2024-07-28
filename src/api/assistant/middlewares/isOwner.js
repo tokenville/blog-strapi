@@ -14,6 +14,12 @@ module.exports = (config, { strapi }) => {
       return next();
     }
 
+    // Check if user is defined
+    if (!user || !user.id) {
+      strapi.log.error('User is not authenticated or missing ID');
+      return ctx.unauthorized("Authentication required");
+    }
+
     try {
       if (entryId) {
         // Handle single entry scenario
@@ -24,24 +30,29 @@ module.exports = (config, { strapi }) => {
         );
 
         if (!entry) {
-          strapi.log.error(`assistant with ID ${entryId} not found`);
-          return ctx.notFound('assistant not found');
+          strapi.log.error(`Assistant with ID ${entryId} not found`);
+          return ctx.notFound('Assistant not found');
         }
 
-        if (!entry.owner) {
-          strapi.log.error(`Owner for assistant with ID ${entryId} not found`);
-          return ctx.badRequest('assistant owner information is missing');
+        // Check if owner exists and has an id
+        const ownerId = entry.owner && entry.owner.id;
+        if (!ownerId) {
+          strapi.log.error(`Owner for assistant with ID ${entryId} not found or missing ID`);
+          return ctx.badRequest('Assistant owner information is missing or invalid');
         }
+
+        // Check if authorized user exists and has an id
+        const authorizedId = entry.authorized && entry.authorized.id;
 
         if (ctx.method === 'GET') {
           // Allow read access if user is owner or authorized
-          if (user.id !== entry.owner.id && (!entry.authorized || user.id !== entry.authorized.id)) {
+          if (user.id !== ownerId && (!authorizedId || user.id !== authorizedId)) {
             strapi.log.warn(`User ${user.id} is not authorized to access assistant ${entryId}`);
             return ctx.unauthorized("This action is unauthorized.");
           }
         } else {
           // For non-GET methods (update, delete), check ownership strictly
-          if (user.id !== entry.owner.id && (!entry.authorized || user.id !== entry.authorized.id)) {
+          if (user.id !== ownerId && (!authorizedId || user.id !== authorizedId)) {
             strapi.log.warn(`User ${user.id} is not authorized to modify assistant ${entryId}`);
             return ctx.unauthorized("This action is unauthorized.");
           }
@@ -55,7 +66,8 @@ module.exports = (config, { strapi }) => {
           );
 
           const authorizedEntries = entries.filter(entry =>
-            user.id === entry.owner.id || (entry.authorized && user.id === entry.authorized.id)
+            (entry.owner && user.id === entry.owner.id) || 
+            (entry.authorized && entry.authorized.id && user.id === entry.authorized.id)
           );
 
           ctx.body = authorizedEntries;
