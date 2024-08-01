@@ -1144,33 +1144,40 @@ export interface ApiHumanHuman extends Schema.CollectionType {
     singularName: 'human';
     pluralName: 'humans';
     displayName: 'Human';
-    description: '';
+    description: 'Represents a user interacting with the system';
   };
   options: {
     draftAndPublish: false;
   };
   attributes: {
-    telegram_handle: Attribute.String;
+    uuid: Attribute.UID & Attribute.Required;
+    name: Attribute.String;
+    email: Attribute.Email & Attribute.Unique;
+    telegram_handle: Attribute.String & Attribute.Unique;
+    phone: Attribute.String & Attribute.Unique;
+    avatar: Attribute.Media;
+    source: Attribute.Enumeration<
+      ['telegram', 'web', 'email', 'phone', 'api']
+    > &
+      Attribute.Required;
+    last_active: Attribute.DateTime;
+    metadata: Attribute.JSON;
     interviews: Attribute.Relation<
       'api::human.human',
       'oneToMany',
       'api::interview.interview'
     >;
-    name: Attribute.String;
-    email: Attribute.String;
-    avatar: Attribute.Media;
     owners: Attribute.Relation<
       'api::human.human',
       'manyToMany',
       'plugin::users-permissions.user'
     >;
-    source: Attribute.Enumeration<['telegram', 'web', 'email']>;
-    user_id: Attribute.String & Attribute.Unique;
     alias: Attribute.Relation<
       'api::human.human',
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    is_anonymous: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

@@ -5,16 +5,56 @@
     "singularName": "human",
     "pluralName": "humans",
     "displayName": "Human",
-    "description": ""
+    "description": "Represents a user interacting with the system"
   },
   "options": {
     "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
+    "uuid": {
+      "type": "uid",
+      "required": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email",
+      "unique": true
+    },
     "telegram_handle": {
       "type": "string",
-      "unique": false
+      "unique": true
+    },
+    "phone": {
+      "type": "string",
+      "unique": true
+    },
+    "avatar": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": [
+        "telegram",
+        "web",
+        "email",
+        "phone",
+        "api"
+      ],
+      "required": true
+    },
+    "last_active": {
+      "type": "datetime"
+    },
+    "metadata": {
+      "type": "json"
     },
     "interviews": {
       "type": "relation",
@@ -22,47 +62,21 @@
       "target": "api::interview.interview",
       "mappedBy": "human"
     },
-    "name": {
-      "type": "string"
-    },
-    "email": {
-      "type": "string",
-      "unique": false
-    },
-    "avatar": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
     "owners": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "humans"
     },
-    "source": {
-      "type": "enumeration",
-      "enum": [
-        "telegram",
-        "web",
-        "email"
-      ]
-    },
-    "user_id": {
-      "type": "string",
-      "unique": true
-    },
     "alias": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user",
       "mappedBy": "alias"
+    },
+    "is_anonymous": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

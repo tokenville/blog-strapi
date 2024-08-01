@@ -11,4 +11,8 @@ module.exports = ({ env }) => ({
   webhooks: {
     populateRelations: env.bool('WEBHOOKS_POPULATE_RELATIONS', false),
   },
+  auth0: {
+    domain: env('AUTH0_DOMAIN'),
+    audience: env('AUTH0_AUDIENCE'),
+  },
 });
