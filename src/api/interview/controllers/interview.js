@@ -1,25 +1,49 @@
-'use strict';
+// api/interview/controllers/interview.js
 
-/**
- * interview controller
- */
+module.exports = {
+  async createOrUpdateInterview(ctx) {
+    const { assistantId, userInfo } = ctx.request.body;
+    const user = ctx.state.user; // This will be the user from Auth0, mapped to Strapi
 
-const { createCoreController } = require('@strapi/strapi').factories;
+    // Check if an interview already exists for this user and assistant
+    let interview = await strapi.services.interview.findOne({
+      human: user.id,
+      assistant: assistantId
+    });
 
-module.exports = createCoreController('api::interview.interview', ({ strapi }) => ({
-  // Extend core logic here
+    if (!interview) {
+      // If no interview exists, create a new one
+      interview = await strapi.services.interview.create({
+        human: user.id,
+        assistant: assistantId,
+        thread_id: generateUniqueThreadId(), // Implement this function
+        transcript: [],
+        userInfo
+      });
+    } else {
+      // If an interview exists, update it
+      interview = await strapi.services.interview.update(
+        { id: interview.id },
+        { userInfo }
+      );
+    }
 
-  async count(ctx) {
-    console.log("Received query parameters:", ctx.query);
-    // Use the query from the context to fetch the count from the service
-    const { query } = ctx;
-
-    // Call the count method from the core service
-    const count = await strapi.entityService.count('api::interview.interview', query);
-
-    // Correctly set the count in the response body
-    ctx.body = { count };
+    return {
+      interviewId: interview.id,
+      threadId: interview.thread_id
+    };
   },
 
-  // Add other custom actions here
-}));
+  async getInterview(ctx) {
+    const { id } = ctx.params;
+    const user = ctx.state.user;
+
+    const interview = await strapi.services.interview.findOne({ id }, ['human', 'assistant']);
+
+    if (!interview || (interview.human.id !== user.id && interview.assistant.owner.id !== user.id)) {
+      return ctx.unauthorized('You do not have access to this interview');
+    }
+
+    return interview;
+  }
+};

@@ -55,5 +55,22 @@ module.exports = ({ env }) => ({
     "strapi-google-auth": {
       enabled: false,
     },
+    'users-permissions': {
+    config: {
+      jwt: {
+        expiresIn: '7d',
+      },
+      providers: {
+        auth0: {
+          enabled: true,
+          icon: 'auth0',
+          key: env('AUTH0_CLIENT_ID'),
+          secret: env('AUTH0_CLIENT_SECRET'),
+          callback: '/auth/auth0/callback',
+          scope: ['openid', 'email', 'profile'],
+        },
+      },
+    },
+  },
 });
 

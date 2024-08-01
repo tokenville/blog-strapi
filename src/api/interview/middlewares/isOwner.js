@@ -32,6 +32,15 @@ const validateAuth0Token = (token) => {
   });
 };
 
+const isAuth0Token = (token) => {
+  try {
+    const decoded = jwt.decode(token, { complete: true });
+    return decoded.header.kid !== undefined; // Auth0 tokens have a 'kid' in the header
+  } catch (error) {
+    return false;
+  }
+};
+
 module.exports = (config, { strapi }) => {
   return async (ctx, next) => {
     console.log('isOwner middleware started');
@@ -47,14 +56,10 @@ module.exports = (config, { strapi }) => {
 
     if (authHeader && authHeader.startsWith('Bearer ')) {
       const token = authHeader.substring(7, authHeader.length);
-      try {
-        // Try to validate as a Strapi JWT first
-        user = await strapi.plugins['users-permissions'].services.jwt.verify(token);
-        console.log('Strapi JWT validated successfully', user);
-      } catch (strapiErr) {
-        console.log('Strapi JWT validation failed, attempting Auth0 validation');
+      
+      if (isAuth0Token(token)) {
+        console.log('Auth0 token detected');
         try {
-          // If Strapi validation fails, try Auth0
           const decodedAuth0 = await validateAuth0Token(token);
           console.log('Auth0 token validated successfully', decodedAuth0);
           user = { 
@@ -63,7 +68,16 @@ module.exports = (config, { strapi }) => {
           };
         } catch (auth0Err) {
           console.error('Auth0 token validation failed:', auth0Err);
-          return ctx.unauthorized('Invalid token');
+          return ctx.unauthorized('Invalid Auth0 token');
+        }
+      } else {
+        console.log('Strapi JWT detected');
+        try {
+          user = await strapi.plugins['users-permissions'].services.jwt.verify(token);
+          console.log('Strapi JWT validated successfully', user);
+        } catch (strapiErr) {
+          console.error('Strapi JWT validation failed:', strapiErr);
+          return ctx.unauthorized('Invalid Strapi token');
         }
       }
     }
