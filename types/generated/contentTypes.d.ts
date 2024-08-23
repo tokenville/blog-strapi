@@ -808,7 +808,8 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'manyToOne',
       'plugin::users-permissions.role'
-    >;
+    > &
+      Attribute.Configurable;
     integrations: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
@@ -843,6 +844,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'api::interview.interview'
     >;
     picture: Attribute.String;
+    auth0id: Attribute.String & Attribute.Unique;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1171,6 +1173,10 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    auth0id: Attribute.String & Attribute.Unique;
+    uuid: Attribute.String & Attribute.Unique;
+    is_anonymous: Attribute.Boolean & Attribute.DefaultTo<false>;
+    last_active: Attribute.DateTime;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1420,6 +1426,42 @@ export interface ApiToneTone extends Schema.CollectionType {
   };
 }
 
+export interface ApiWidgetWidget extends Schema.CollectionType {
+  collectionName: 'widgets';
+  info: {
+    singularName: 'widget';
+    pluralName: 'widgets';
+    displayName: 'widget';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    html: Attribute.Text;
+    css: Attribute.Text;
+    preview: Attribute.Media;
+    description: Attribute.Text;
+    icon: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::widget.widget',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::widget.widget',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1450,6 +1492,7 @@ declare module '@strapi/types' {
       'api::special.special': ApiSpecialSpecial;
       'api::stripe-setting.stripe-setting': ApiStripeSettingStripeSetting;
       'api::tone.tone': ApiToneTone;
+      'api::widget.widget': ApiWidgetWidget;
     }
   }
 }

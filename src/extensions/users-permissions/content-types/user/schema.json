@@ -63,7 +63,7 @@
       "relation": "manyToOne",
       "target": "plugin::users-permissions.role",
       "inversedBy": "users",
-      "configurable": false
+      "configurable": true
     },
     "integrations": {
       "type": "relation",
@@ -113,6 +113,10 @@
     },
     "picture": {
       "type": "string"
+    },
+    "auth0id": {
+      "type": "string",
+      "unique": true
     }
   }
 }

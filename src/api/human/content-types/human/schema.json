@@ -63,6 +63,21 @@
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user",
       "mappedBy": "alias"
+    },
+    "auth0id": {
+      "type": "string",
+      "unique": true
+    },
+    "uuid": {
+      "type": "string",
+      "unique": true
+    },
+    "is_anonymous": {
+      "type": "boolean",
+      "default": false
+    },
+    "last_active": {
+      "type": "datetime"
     }
   }
 }
