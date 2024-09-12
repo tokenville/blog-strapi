@@ -1166,7 +1166,9 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       'manyToMany',
       'plugin::users-permissions.user'
     >;
-    source: Attribute.Enumeration<['telegram', 'web', 'email']>;
+    source: Attribute.Enumeration<
+      ['telegram', 'web', 'email', 'api', 'widget']
+    >;
     user_id: Attribute.String & Attribute.Unique;
     alias: Attribute.Relation<
       'api::human.human',

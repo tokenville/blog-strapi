@@ -51,7 +51,9 @@
       "enum": [
         "telegram",
         "web",
-        "email"
+        "email",
+        "api",
+        "widget"
       ]
     },
     "user_id": {
