@@ -18,6 +18,18 @@
     },
     "body": {
       "type": "text"
+    },
+    "to_email": {
+      "type": "string",
+      "required": true
+    },
+    "from_email": {
+      "type": "string",
+      "default": "f\"{8D-1} <no-reply@x.8d-1.com>\","
+    },
+    "templateType": {
+      "type": "uid",
+      "required": true
     }
   }
 }

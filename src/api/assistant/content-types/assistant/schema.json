@@ -112,6 +112,9 @@
     "customised": {
       "type": "boolean",
       "default": false
+    },
+    "first_message": {
+      "type": "json"
     }
   }
 }

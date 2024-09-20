@@ -974,6 +974,7 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
     client_name: Attribute.String;
     client_overview: Attribute.Text;
     customised: Attribute.Boolean & Attribute.DefaultTo<false>;
+    first_message: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1048,6 +1049,10 @@ export interface ApiEmailTemplateEmailTemplate extends Schema.CollectionType {
     subject: Attribute.String &
       Attribute.DefaultTo<'A new message from your 8D-1...'>;
     body: Attribute.Text;
+    to_email: Attribute.String & Attribute.Required;
+    from_email: Attribute.String &
+      Attribute.DefaultTo<'f"{8D-1} <no-reply@x.8d-1.com>",'>;
+    templateType: Attribute.UID & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
