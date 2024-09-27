@@ -62,8 +62,7 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.role",
-      "inversedBy": "users",
-      "configurable": true
+      "inversedBy": "users"
     },
     "integrations": {
       "type": "relation",
@@ -117,6 +116,9 @@
     "auth0id": {
       "type": "string",
       "unique": true
+    },
+    "notifications": {
+      "type": "json"
     }
   }
 }

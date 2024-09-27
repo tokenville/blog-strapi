@@ -115,6 +115,11 @@
     },
     "first_message": {
       "type": "json"
+    },
+    "notification_threshold": {
+      "type": "integer",
+      "default": 3,
+      "min": 1
     }
   }
 }

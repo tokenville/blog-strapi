@@ -808,8 +808,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'manyToOne',
       'plugin::users-permissions.role'
-    > &
-      Attribute.Configurable;
+    >;
     integrations: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
@@ -845,6 +844,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     >;
     picture: Attribute.String;
     auth0id: Attribute.String & Attribute.Unique;
+    notifications: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -975,6 +975,14 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
     client_overview: Attribute.Text;
     customised: Attribute.Boolean & Attribute.DefaultTo<false>;
     first_message: Attribute.JSON;
+    notification_threshold: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      > &
+      Attribute.DefaultTo<3>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1313,6 +1321,7 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
     >;
     thread_id: Attribute.UID;
     attachments: Attribute.Media;
+    message_count: Attribute.Integer & Attribute.DefaultTo<1>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
