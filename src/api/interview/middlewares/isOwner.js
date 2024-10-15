@@ -15,6 +15,17 @@ module.exports = (config, { strapi }) => {
     const user = ctx.state.user;
     const entryId = ctx.params.id;
 
+    // Allow access for admin API key
+    if (ctx.request.headers['authorization'] === `Bearer ${process.env.ADMIN_API_KEY}`) {
+      return next();
+    }
+
+    // Check if user is defined
+    if (!user || !user.id) {
+      strapi.log.error('User is not authenticated or missing ID');
+      return ctx.unauthorized("Authentication required");
+    }
+
     try {
       if (entryId) {
         console.log('Checking single entry ownership');
