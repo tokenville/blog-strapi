@@ -4,7 +4,8 @@
   "info": {
     "singularName": "stripe-setting",
     "pluralName": "stripe-settings",
-    "displayName": "stripe-settings"
+    "displayName": "stripe-settings",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -16,6 +17,10 @@
     },
     "discounts": {
       "type": "json"
+    },
+    "trialDays": {
+      "type": "integer",
+      "default": 14
     }
   }
 }

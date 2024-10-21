@@ -1389,6 +1389,7 @@ export interface ApiStripeSettingStripeSetting extends Schema.SingleType {
     singularName: 'stripe-setting';
     pluralName: 'stripe-settings';
     displayName: 'stripe-settings';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -1396,6 +1397,7 @@ export interface ApiStripeSettingStripeSetting extends Schema.SingleType {
   attributes: {
     priceId: Attribute.String;
     discounts: Attribute.JSON;
+    trialDays: Attribute.Integer & Attribute.DefaultTo<14>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
