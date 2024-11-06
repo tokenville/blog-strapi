@@ -120,6 +120,9 @@
       "type": "integer",
       "default": 3,
       "min": 1
+    },
+    "knowledge_base": {
+      "type": "json"
     }
   }
 }

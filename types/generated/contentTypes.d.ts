@@ -983,6 +983,7 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
         number
       > &
       Attribute.DefaultTo<3>;
+    knowledge_base: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
