@@ -862,55 +862,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiArticleArticle extends Schema.CollectionType {
-  collectionName: 'articles';
-  info: {
-    singularName: 'article';
-    pluralName: 'articles';
-    displayName: 'Article';
-    description: 'Create your blog content';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    title: Attribute.String &
-      Attribute.DefaultTo<'This interview is in progress...'>;
-    description: Attribute.Text & Attribute.Required;
-    slug: Attribute.UID<'api::article.article', 'title'>;
-    cover: Attribute.Media;
-    blocks: Attribute.DynamicZone<
-      [
-        'shared.media',
-        'shared.quote',
-        'shared.rich-text',
-        'shared.slider',
-        'shared.video-embed'
-      ]
-    >;
-    seo: Attribute.Component<'shared.seo'>;
-    interview: Attribute.Relation<
-      'api::article.article',
-      'oneToOne',
-      'api::interview.interview'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::article.article',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::article.article',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiAssistantAssistant extends Schema.CollectionType {
   collectionName: 'assistants';
   info: {
@@ -1012,20 +963,68 @@ export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
   options: {
     draftAndPublish: false;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    task: Attribute.String & Attribute.Required & Attribute.Unique;
-    communicator_prompt: Attribute.Text;
-    baseschema: Attribute.JSON;
+    task: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    communicator_prompt: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    baseschema: Attribute.JSON &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     assistants: Attribute.Relation<
       'api::base-assistant.base-assistant',
       'oneToMany',
       'api::assistant.assistant'
     >;
-    analyst_prompt: Attribute.Text;
-    brief_label: Attribute.String;
-    tip_message: Attribute.Text;
-    placeholder: Attribute.Text;
-    featured: Attribute.Boolean & Attribute.DefaultTo<false>;
+    analyst_prompt: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    brief_label: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    tip_message: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    placeholder: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    featured: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1040,6 +1039,12 @@ export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::base-assistant.base-assistant',
+      'oneToMany',
+      'api::base-assistant.base-assistant'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -1291,11 +1296,6 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
       'manyToOne',
       'api::human.human'
     >;
-    article: Attribute.Relation<
-      'api::interview.interview',
-      'oneToOne',
-      'api::article.article'
-    >;
     is_active: Attribute.Boolean & Attribute.DefaultTo<true>;
     owner: Attribute.Relation<
       'api::interview.interview',
@@ -1323,6 +1323,8 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
     thread_id: Attribute.UID;
     attachments: Attribute.Media;
     message_count: Attribute.Integer & Attribute.DefaultTo<1>;
+    status: Attribute.Enumeration<['todo', 'in_progress', 'done']> &
+      Attribute.DefaultTo<'todo'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1340,47 +1342,55 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
   };
 }
 
-export interface ApiSpecialSpecial extends Schema.CollectionType {
-  collectionName: 'specials';
+export interface ApiSolutionSolution extends Schema.CollectionType {
+  collectionName: 'solutions';
   info: {
-    singularName: 'special';
-    pluralName: 'specials';
-    displayName: 'Special';
+    singularName: 'solution';
+    pluralName: 'solutions';
+    displayName: 'Solution';
     description: '';
   };
   options: {
     draftAndPublish: false;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    title: Attribute.String;
-    star: Attribute.Relation<
-      'api::special.special',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    about_star: Attribute.Text;
-    base_assistant: Attribute.Relation<
-      'api::special.special',
-      'oneToOne',
-      'api::base-assistant.base-assistant'
-    >;
-    cover: Attribute.Media;
-    slug: Attribute.UID;
-    cando: Attribute.Blocks;
+    slug: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    pageData: Attribute.JSON &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::special.special',
+      'api::solution.solution',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::special.special',
+      'api::solution.solution',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::solution.solution',
+      'oneToMany',
+      'api::solution.solution'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -1427,21 +1437,50 @@ export interface ApiToneTone extends Schema.CollectionType {
   options: {
     draftAndPublish: false;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
-    tone: Attribute.String & Attribute.Required & Attribute.Unique;
-    toneprompt: Attribute.Text;
+    tone: Attribute.String &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    toneprompt: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     assistants: Attribute.Relation<
       'api::tone.tone',
       'oneToMany',
       'api::assistant.assistant'
     >;
-    featured: Attribute.Boolean & Attribute.DefaultTo<false>;
+    featured: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::tone.tone', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::tone.tone', 'oneToOne', 'admin::user'> &
       Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::tone.tone',
+      'oneToMany',
+      'api::tone.tone'
+    >;
+    locale: Attribute.String;
   };
 }
 
@@ -1500,7 +1539,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::article.article': ApiArticleArticle;
       'api::assistant.assistant': ApiAssistantAssistant;
       'api::base-assistant.base-assistant': ApiBaseAssistantBaseAssistant;
       'api::email-template.email-template': ApiEmailTemplateEmailTemplate;
@@ -1508,7 +1546,7 @@ declare module '@strapi/types' {
       'api::human.human': ApiHumanHuman;
       'api::integration.integration': ApiIntegrationIntegration;
       'api::interview.interview': ApiInterviewInterview;
-      'api::special.special': ApiSpecialSpecial;
+      'api::solution.solution': ApiSolutionSolution;
       'api::stripe-setting.stripe-setting': ApiStripeSettingStripeSetting;
       'api::tone.tone': ApiToneTone;
       'api::widget.widget': ApiWidgetWidget;

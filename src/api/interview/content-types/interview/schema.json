@@ -37,12 +37,6 @@
       "target": "api::human.human",
       "inversedBy": "interviews"
     },
-    "article": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::article.article",
-      "inversedBy": "interview"
-    },
     "is_active": {
       "type": "boolean",
       "default": true
@@ -89,6 +83,15 @@
     "message_count": {
       "type": "integer",
       "default": 1
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "todo",
+        "in_progress",
+        "done"
+      ],
+      "default": "todo"
     }
   }
 }
