@@ -881,7 +881,7 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
     publisher_prompt: Attribute.String;
     telegramtoken: Attribute.String & Attribute.Unique;
     gpt_id: Attribute.String & Attribute.Unique;
-    telegrambot_username: Attribute.String & Attribute.Unique;
+    telegrambot_username: Attribute.String;
     request: Attribute.JSON;
     interviews: Attribute.Relation<
       'api::assistant.assistant',
@@ -935,6 +935,11 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       > &
       Attribute.DefaultTo<3>;
     knowledge_base: Attribute.JSON;
+    tools: Attribute.Relation<
+      'api::assistant.assistant',
+      'manyToMany',
+      'api::tool.tool'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1484,6 +1489,36 @@ export interface ApiToneTone extends Schema.CollectionType {
   };
 }
 
+export interface ApiToolTool extends Schema.CollectionType {
+  collectionName: 'tools';
+  info: {
+    singularName: 'tool';
+    pluralName: 'tools';
+    displayName: 'Tool';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required & Attribute.Unique;
+    description: Attribute.Text & Attribute.Required;
+    parameters: Attribute.JSON & Attribute.Required;
+    enabled: Attribute.Boolean;
+    type: Attribute.String & Attribute.DefaultTo<'function'>;
+    assistants: Attribute.Relation<
+      'api::tool.tool',
+      'manyToMany',
+      'api::assistant.assistant'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::tool.tool', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::tool.tool', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface ApiWidgetWidget extends Schema.CollectionType {
   collectionName: 'widgets';
   info: {
@@ -1549,6 +1584,7 @@ declare module '@strapi/types' {
       'api::solution.solution': ApiSolutionSolution;
       'api::stripe-setting.stripe-setting': ApiStripeSettingStripeSetting;
       'api::tone.tone': ApiToneTone;
+      'api::tool.tool': ApiToolTool;
       'api::widget.widget': ApiWidgetWidget;
     }
   }

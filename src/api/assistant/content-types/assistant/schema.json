@@ -35,7 +35,7 @@
     },
     "telegrambot_username": {
       "type": "string",
-      "unique": true
+      "unique": false
     },
     "request": {
       "type": "json"
@@ -123,6 +123,12 @@
     },
     "knowledge_base": {
       "type": "json"
+    },
+    "tools": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tool.tool",
+      "mappedBy": "assistants"
     }
   }
 }

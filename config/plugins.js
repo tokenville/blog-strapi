@@ -11,7 +11,6 @@ module.exports = ({ env }) => ({
         },
       },
       slugifyWithCount: true,
-      shouldUpdateSlug: false,
     },
   },
     email: {

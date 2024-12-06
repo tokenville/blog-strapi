@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tools",
+  "info": {
+    "singularName": "tool",
+    "pluralName": "tools",
+    "displayName": "Tool"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "parameters": {
+      "type": "json",
+      "required": true
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "type": {
+      "type": "string",
+      "default": "function"
+    },
+    "assistants": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::assistant.assistant",
+      "inversedBy": "tools"
+    }
+  }
+}
