@@ -88,6 +88,12 @@
           "localized": true
         }
       }
+    },
+    "white_labels": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::white-label.white-label",
+      "mappedBy": "base_assistants"
     }
   }
 }

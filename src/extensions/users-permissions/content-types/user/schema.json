@@ -70,12 +70,6 @@
       "target": "api::integration.integration",
       "mappedBy": "owner"
     },
-    "assistants": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::assistant.assistant",
-      "mappedBy": "owner"
-    },
     "stripeCustomerId": {
       "type": "string",
       "unique": true
@@ -119,6 +113,30 @@
     },
     "notifications": {
       "type": "json"
+    },
+    "white_labels": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::white-label.white-label",
+      "mappedBy": "users_permissions_users"
+    },
+    "store": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::store.store",
+      "inversedBy": "users_permissions_users"
+    },
+    "assistants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::assistant.assistant",
+      "mappedBy": "owner"
+    },
+    "shared_assistants": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::assistant.assistant",
+      "mappedBy": "managers"
     }
   }
 }

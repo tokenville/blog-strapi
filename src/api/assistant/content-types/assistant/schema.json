@@ -129,6 +129,18 @@
       "relation": "manyToMany",
       "target": "api::tool.tool",
       "mappedBy": "assistants"
+    },
+    "store": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::store.store",
+      "inversedBy": "assistants"
+    },
+    "managers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "shared_assistants"
     }
   }
 }

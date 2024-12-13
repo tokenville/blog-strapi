@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "white_labels",
+  "info": {
+    "singularName": "white-label",
+    "pluralName": "white-labels",
+    "displayName": "White label"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "domain": {
+      "type": "string"
+    },
+    "stripe_account_id": {
+      "type": "string"
+    },
+    "auth0_domain": {
+      "type": "string"
+    },
+    "auth0_client_id": {
+      "type": "string"
+    },
+    "auth0_client_secret": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean"
+    },
+    "base_assistants": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::base-assistant.base-assistant",
+      "inversedBy": "white_labels"
+    },
+    "humans": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::human.human",
+      "inversedBy": "white_labels"
+    },
+    "users_permissions_users": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "white_labels"
+    },
+    "openai_api_key": {
+      "type": "string"
+    },
+    "stripe_price_id": {
+      "type": "string"
+    }
+  }
+}

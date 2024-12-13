@@ -814,11 +814,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::integration.integration'
     >;
-    assistants: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::assistant.assistant'
-    >;
     stripeCustomerId: Attribute.String & Attribute.Unique;
     humans: Attribute.Relation<
       'plugin::users-permissions.user',
@@ -845,6 +840,26 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     picture: Attribute.String;
     auth0id: Attribute.String & Attribute.Unique;
     notifications: Attribute.JSON;
+    white_labels: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::white-label.white-label'
+    >;
+    store: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToOne',
+      'api::store.store'
+    >;
+    assistants: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::assistant.assistant'
+    >;
+    shared_assistants: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::assistant.assistant'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -940,6 +955,16 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       'manyToMany',
       'api::tool.tool'
     >;
+    store: Attribute.Relation<
+      'api::assistant.assistant',
+      'manyToOne',
+      'api::store.store'
+    >;
+    managers: Attribute.Relation<
+      'api::assistant.assistant',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1030,6 +1055,11 @@ export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
         };
       }> &
       Attribute.DefaultTo<false>;
+    white_labels: Attribute.Relation<
+      'api::base-assistant.base-assistant',
+      'manyToMany',
+      'api::white-label.white-label'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1203,6 +1233,11 @@ export interface ApiHumanHuman extends Schema.CollectionType {
     uuid: Attribute.String & Attribute.Unique;
     is_anonymous: Attribute.Boolean & Attribute.DefaultTo<false>;
     last_active: Attribute.DateTime;
+    white_labels: Attribute.Relation<
+      'api::human.human',
+      'manyToMany',
+      'api::white-label.white-label'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1399,6 +1434,85 @@ export interface ApiSolutionSolution extends Schema.CollectionType {
   };
 }
 
+export interface ApiStoreStore extends Schema.CollectionType {
+  collectionName: 'stores';
+  info: {
+    singularName: 'store';
+    pluralName: 'stores';
+    displayName: 'Store';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    subtitle: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    assistants: Attribute.Relation<
+      'api::store.store',
+      'oneToMany',
+      'api::assistant.assistant'
+    >;
+    cover: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    users_permissions_users: Attribute.Relation<
+      'api::store.store',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+    contactemail: Attribute.Email &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    active: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::store.store',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::store.store',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    localizations: Attribute.Relation<
+      'api::store.store',
+      'oneToMany',
+      'api::store.store'
+    >;
+    locale: Attribute.String;
+  };
+}
+
 export interface ApiStripeSettingStripeSetting extends Schema.SingleType {
   collectionName: 'stripe_settings';
   info: {
@@ -1519,6 +1633,59 @@ export interface ApiToolTool extends Schema.CollectionType {
   };
 }
 
+export interface ApiWhiteLabelWhiteLabel extends Schema.CollectionType {
+  collectionName: 'white_labels';
+  info: {
+    singularName: 'white-label';
+    pluralName: 'white-labels';
+    displayName: 'White label';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    domain: Attribute.String;
+    stripe_account_id: Attribute.String;
+    auth0_domain: Attribute.String;
+    auth0_client_id: Attribute.String;
+    auth0_client_secret: Attribute.String;
+    is_active: Attribute.Boolean;
+    base_assistants: Attribute.Relation<
+      'api::white-label.white-label',
+      'manyToMany',
+      'api::base-assistant.base-assistant'
+    >;
+    humans: Attribute.Relation<
+      'api::white-label.white-label',
+      'manyToMany',
+      'api::human.human'
+    >;
+    users_permissions_users: Attribute.Relation<
+      'api::white-label.white-label',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    openai_api_key: Attribute.String;
+    stripe_price_id: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::white-label.white-label',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::white-label.white-label',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiWidgetWidget extends Schema.CollectionType {
   collectionName: 'widgets';
   info: {
@@ -1582,9 +1749,11 @@ declare module '@strapi/types' {
       'api::integration.integration': ApiIntegrationIntegration;
       'api::interview.interview': ApiInterviewInterview;
       'api::solution.solution': ApiSolutionSolution;
+      'api::store.store': ApiStoreStore;
       'api::stripe-setting.stripe-setting': ApiStripeSettingStripeSetting;
       'api::tone.tone': ApiToneTone;
       'api::tool.tool': ApiToolTool;
+      'api::white-label.white-label': ApiWhiteLabelWhiteLabel;
       'api::widget.widget': ApiWidgetWidget;
     }
   }
