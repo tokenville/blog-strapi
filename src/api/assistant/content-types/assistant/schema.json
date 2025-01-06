@@ -141,6 +141,23 @@
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "shared_assistants"
+    },
+    "cover_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "price_per_use": {
+      "type": "decimal",
+      "default": 0,
+      "min": 0
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

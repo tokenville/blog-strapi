@@ -120,12 +120,6 @@
       "target": "api::white-label.white-label",
       "mappedBy": "users_permissions_users"
     },
-    "store": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::store.store",
-      "inversedBy": "users_permissions_users"
-    },
     "assistants": {
       "type": "relation",
       "relation": "oneToMany",
@@ -137,6 +131,29 @@
       "relation": "manyToMany",
       "target": "api::assistant.assistant",
       "mappedBy": "managers"
+    },
+    "stripe_connect_id": {
+      "type": "string",
+      "unique": true
+    },
+    "stripe_connect_status": {
+      "type": "enumeration",
+      "enum": [
+        "active",
+        "pending"
+      ]
+    },
+    "stores": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::store.store",
+      "mappedBy": "managers"
+    },
+    "own_stores": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::store.store",
+      "mappedBy": "owner"
     }
   }
 }

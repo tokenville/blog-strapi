@@ -7,18 +7,30 @@
 const { createCoreController } = require('@strapi/strapi').factories;
 
 module.exports = createCoreController('api::assistant.assistant', ({ strapi }) => ({
-  // Extend core logic here
-
   async count(ctx) {
-    // Use the query from the context to fetch the count from the service
     const { query } = ctx;
 
-    // Call the count method from the core service
-    const count = await strapi.entityService.count('api::assistant.assistant', query);
+    const assistants = await strapi.entityService.findMany(
+      "api::assistant.assistant",
+      {
+        ...query,
+        populate: ["interviews.human"]  // Populate human through interviews
+      }
+    );
 
-    // Send the count in the response
-    return { count };
-  },
+    const stats = assistants.map(assistant => {
+      // Get unique humans by using Set
+      const uniqueHumans = new Set(
+        assistant.interviews?.map(interview => interview.human?.id).filter(Boolean)
+      );
 
-  // Add other custom actions here
+      return {
+        id: assistant.id,
+        interviews: assistant.interviews?.length || 0,
+        humans: uniqueHumans.size
+      };
+    });
+
+    return { stats };
+  }
 }));

@@ -25,6 +25,7 @@
     "react-dom": "^18.0.0",
     "react-router-dom": "5.3.4",
     "strapi-google-auth": "^0.2.1",
+    "strapi-plugin-file-system": "^1.0.10",
     "strapi-plugin-slugify": "^2.3.8",
     "strapi-provider-email-resend": "^1.0.4",
     "stripe": "^15.6.0",

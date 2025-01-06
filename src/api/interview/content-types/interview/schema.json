@@ -92,6 +92,25 @@
         "done"
       ],
       "default": "todo"
+    },
+    "payment_status": {
+      "type": "enumeration",
+      "enum": [
+        "paid",
+        "pending",
+        "failed",
+        "trial"
+      ],
+      "default": "paid"
+    },
+    "interview_status": {
+      "type": "enumeration",
+      "enum": [
+        "active",
+        "finished",
+        "paused",
+        "blocked"
+      ]
     }
   }
 }

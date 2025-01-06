@@ -1,21 +1,53 @@
-const { createCoreRouter } = require("@strapi/strapi").factories;
-
-module.exports = createCoreRouter("api::assistant.assistant", {
-  config: {
-    find: {
-      middlewares: [],
+module.exports = {
+  routes: [
+    {
+      method: 'GET',
+      path: '/assistants',
+      handler: 'api::assistant.assistant.find',
+      config: {
+        policies: [],
+      },
     },
-    findOne: {
-      middlewares: [],
+    {
+      method: 'GET',
+      path: '/assistants/count',
+      handler: 'api::assistant.assistant.count',
+      config: {
+        policies: [],
+      },
     },
-    create: {
-      middlewares: [], // Assuming create does not need ownership check
+    {
+        method: 'GET',
+        path: '/assistants/:id',
+        handler: 'api::assistant.assistant.findOne',
+        config: {
+            policies: [],
+        },
     },
-    update: {
-      middlewares: ["api::assistant.is-owner"],
+    {
+      method: 'POST',
+      path: '/assistants',
+      handler: 'api::assistant.assistant.create',
+      config: {
+        policies: [],
+      },
     },
-    delete: {
-      middlewares: ["api::assistant.is-owner"],
+    {
+      method: 'PUT',
+      path: '/assistants/:id',
+      handler: 'api::assistant.assistant.update',
+      config: {
+        policies: [],
+      },
     },
-  },
-});
+    {
+      method: 'DELETE',
+      path: '/assistants/:id',
+      handler: 'api::assistant.assistant.delete',
+      config: {
+        policies: [],
+      },
+    },
+    ...require('./custom-assistant').routes,
+  ],
+};

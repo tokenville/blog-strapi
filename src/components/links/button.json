@@ -11,12 +11,8 @@
     "text": {
       "type": "string"
     },
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "primary",
-        "secondary"
-      ]
+    "link": {
+      "type": "string"
     }
   }
 }

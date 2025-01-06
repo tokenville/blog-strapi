@@ -1,5 +1,35 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
+export interface ElementsAboutUs extends Schema.Component {
+  collectionName: 'components_elements_about_uses';
+  info: {
+    displayName: 'about_us';
+    description: '';
+  };
+  attributes: {
+    picture: Attribute.Media;
+    title: Attribute.String;
+    paragraph: Attribute.Text;
+    cta: Attribute.String;
+    link: Attribute.String;
+  };
+}
+
+export interface ElementsFaq extends Schema.Component {
+  collectionName: 'components_elements_faqs';
+  info: {
+    displayName: 'FAQ';
+    icon: 'information';
+    description: '';
+  };
+  attributes: {
+    question: Attribute.String &
+      Attribute.DefaultTo<"Should I trust agent's responses?">;
+    answer: Attribute.String &
+      Attribute.DefaultTo<'While each AI agent acts autonomousely, all chats are reviewed by the professional team to ensure that infortmation is not missleading. In case any adjustments needed you will get additional clarifications in a metter of 24 hours.'>;
+  };
+}
+
 export interface ElementsFeatureColumn extends Schema.Component {
   collectionName: 'components_slices_feature_columns';
   info: {
@@ -117,9 +147,12 @@ export interface ElementsTestimonial extends Schema.Component {
     description: '';
   };
   attributes: {
-    picture: Attribute.Media & Attribute.Required;
-    text: Attribute.Text & Attribute.Required;
-    authorName: Attribute.String & Attribute.Required;
+    picture: Attribute.Media;
+    text: Attribute.Text & Attribute.DefaultTo<'This is the way!'>;
+    authorName: Attribute.String &
+      Attribute.Required &
+      Attribute.DefaultTo<'Din Djarin'>;
+    title: Attribute.String & Attribute.DefaultTo<'Mandalorian '>;
   };
 }
 
@@ -190,7 +223,7 @@ export interface LinksButton extends Schema.Component {
   };
   attributes: {
     text: Attribute.String;
-    type: Attribute.Enumeration<['primary', 'secondary']>;
+    link: Attribute.String;
   };
 }
 
@@ -467,6 +500,8 @@ export interface SharedVideoEmbed extends Schema.Component {
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
+      'elements.about-us': ElementsAboutUs;
+      'elements.faq': ElementsFaq;
       'elements.feature-column': ElementsFeatureColumn;
       'elements.feature-row': ElementsFeatureRow;
       'elements.feature': ElementsFeature;

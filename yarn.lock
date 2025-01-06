@@ -10999,6 +10999,11 @@ strapi-google-auth@^0.2.1:
     google-auth-library "^8.0.2"
     googleapis "^100.0.0"
 
+strapi-plugin-file-system@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/strapi-plugin-file-system/-/strapi-plugin-file-system-1.0.10.tgz#a4aa6028c175e3f76f5da4e0971a5d16bef04c0b"
+  integrity sha512-cDb1A/39L93lEpBp5ttuBipzf5myh1dSsAcFFDu7JqHl8Ym+ONPFUX4ZVehaEc5zc3XhDAGDjXz/SjoHZxFnnQ==
+
 strapi-plugin-slugify@^2.3.8:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/strapi-plugin-slugify/-/strapi-plugin-slugify-2.3.8.tgz#feed725c6becbb0408ce601f40055aaa76b98316"

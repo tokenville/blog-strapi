@@ -845,11 +845,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToMany',
       'api::white-label.white-label'
     >;
-    store: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'manyToOne',
-      'api::store.store'
-    >;
     assistants: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
@@ -859,6 +854,18 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'manyToMany',
       'api::assistant.assistant'
+    >;
+    stripe_connect_id: Attribute.String & Attribute.Unique;
+    stripe_connect_status: Attribute.Enumeration<['active', 'pending']>;
+    stores: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::store.store'
+    >;
+    own_stores: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::store.store'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -965,6 +972,16 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       'manyToMany',
       'plugin::users-permissions.user'
     >;
+    cover_image: Attribute.Media;
+    price_per_use: Attribute.Decimal &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
+    featured: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1238,6 +1255,7 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       'manyToMany',
       'api::white-label.white-label'
     >;
+    blocked: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1365,6 +1383,13 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
     message_count: Attribute.Integer & Attribute.DefaultTo<1>;
     status: Attribute.Enumeration<['todo', 'in_progress', 'done']> &
       Attribute.DefaultTo<'todo'>;
+    payment_status: Attribute.Enumeration<
+      ['paid', 'pending', 'failed', 'trial']
+    > &
+      Attribute.DefaultTo<'paid'>;
+    interview_status: Attribute.Enumeration<
+      ['active', 'finished', 'paused', 'blocked']
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1440,6 +1465,7 @@ export interface ApiStoreStore extends Schema.CollectionType {
     singularName: 'store';
     pluralName: 'stores';
     displayName: 'Store';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -1473,9 +1499,9 @@ export interface ApiStoreStore extends Schema.CollectionType {
           localized: true;
         };
       }>;
-    users_permissions_users: Attribute.Relation<
+    owner: Attribute.Relation<
       'api::store.store',
-      'oneToMany',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
     contactemail: Attribute.Email &
@@ -1485,6 +1511,54 @@ export interface ApiStoreStore extends Schema.CollectionType {
         };
       }>;
     active: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    faq: Attribute.Component<'elements.faq', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    testimonial: Attribute.Component<'elements.testimonial', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    button: Attribute.Component<'links.button-link', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    store_name: Attribute.String &
+      Attribute.Unique &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    about_us: Attribute.Component<'elements.about-us'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    managers: Attribute.Relation<
+      'api::store.store',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    logo: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    logo_dark: Attribute.String &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;

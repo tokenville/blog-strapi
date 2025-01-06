@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_elements_faqs",
+  "info": {
+    "displayName": "FAQ",
+    "icon": "information",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "question": {
+      "type": "string",
+      "default": "Should I trust agent's responses?"
+    },
+    "answer": {
+      "type": "string",
+      "default": "While each AI agent acts autonomousely, all chats are reviewed by the professional team to ensure that infortmation is not missleading. In case any adjustments needed you will get additional clarifications in a metter of 24 hours."
+    }
+  }
+}
