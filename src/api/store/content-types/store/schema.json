@@ -136,7 +136,7 @@
     "logo": {
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
       "type": "string"
@@ -144,7 +144,15 @@
     "logo_dark": {
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
+        }
+      },
+      "type": "string"
+    },
+    "primary_color": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
         }
       },
       "type": "string"
