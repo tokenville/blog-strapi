@@ -982,6 +982,11 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       > &
       Attribute.DefaultTo<0>;
     featured: Attribute.Boolean & Attribute.DefaultTo<false>;
+    categories: Attribute.Relation<
+      'api::assistant.assistant',
+      'manyToMany',
+      'api::category.category'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1097,6 +1102,43 @@ export interface ApiBaseAssistantBaseAssistant extends Schema.CollectionType {
       'api::base-assistant.base-assistant'
     >;
     locale: Attribute.String;
+  };
+}
+
+export interface ApiCategoryCategory extends Schema.CollectionType {
+  collectionName: 'categories';
+  info: {
+    singularName: 'category';
+    pluralName: 'categories';
+    displayName: 'category';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    name: Attribute.String;
+    slug: Attribute.String & Attribute.Unique;
+    description: Attribute.Text;
+    order: Attribute.Integer & Attribute.Unique;
+    assistants: Attribute.Relation<
+      'api::category.category',
+      'manyToMany',
+      'api::assistant.assistant'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
   };
 }
 
@@ -1689,6 +1731,7 @@ export interface ApiToolTool extends Schema.CollectionType {
     singularName: 'tool';
     pluralName: 'tools';
     displayName: 'Tool';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -1704,6 +1747,8 @@ export interface ApiToolTool extends Schema.CollectionType {
       'manyToMany',
       'api::assistant.assistant'
     >;
+    public_name: Attribute.String;
+    public_description: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::tool.tool', 'oneToOne', 'admin::user'> &
@@ -1823,6 +1868,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::assistant.assistant': ApiAssistantAssistant;
       'api::base-assistant.base-assistant': ApiBaseAssistantBaseAssistant;
+      'api::category.category': ApiCategoryCategory;
       'api::email-template.email-template': ApiEmailTemplateEmailTemplate;
       'api::global.global': ApiGlobalGlobal;
       'api::human.human': ApiHumanHuman;

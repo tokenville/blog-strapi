@@ -4,7 +4,8 @@
   "info": {
     "singularName": "tool",
     "pluralName": "tools",
-    "displayName": "Tool"
+    "displayName": "Tool",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -36,6 +37,12 @@
       "relation": "manyToMany",
       "target": "api::assistant.assistant",
       "inversedBy": "tools"
+    },
+    "public_name": {
+      "type": "string"
+    },
+    "public_description": {
+      "type": "text"
     }
   }
 }
