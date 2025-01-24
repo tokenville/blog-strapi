@@ -987,6 +987,7 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       'manyToMany',
       'api::category.category'
     >;
+    bot_token_active: Attribute.Boolean & Attribute.DefaultTo<true>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

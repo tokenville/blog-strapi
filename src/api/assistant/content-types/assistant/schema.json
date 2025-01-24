@@ -164,6 +164,10 @@
       "relation": "manyToMany",
       "target": "api::category.category",
       "mappedBy": "assistants"
+    },
+    "bot_token_active": {
+      "type": "boolean",
+      "default": true
     }
   }
 }
