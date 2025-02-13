@@ -1281,7 +1281,7 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       'plugin::users-permissions.user'
     >;
     source: Attribute.Enumeration<
-      ['telegram', 'web', 'email', 'api', 'widget']
+      ['telegram', 'web', 'email', 'api', 'widget', 'miniapp']
     >;
     user_id: Attribute.String & Attribute.Unique;
     alias: Attribute.Relation<
@@ -1299,6 +1299,7 @@ export interface ApiHumanHuman extends Schema.CollectionType {
       'api::white-label.white-label'
     >;
     blocked: Attribute.Boolean & Attribute.DefaultTo<false>;
+    primary_language: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1433,6 +1434,7 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
     interview_status: Attribute.Enumeration<
       ['active', 'finished', 'paused', 'blocked']
     >;
+    source: Attribute.Enumeration<['web', 'telegram', 'miniapp']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

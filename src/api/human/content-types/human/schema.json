@@ -53,7 +53,8 @@
         "web",
         "email",
         "api",
-        "widget"
+        "widget",
+        "miniapp"
       ]
     },
     "user_id": {
@@ -90,6 +91,9 @@
     "blocked": {
       "type": "boolean",
       "default": false
+    },
+    "primary_language": {
+      "type": "string"
     }
   }
 }

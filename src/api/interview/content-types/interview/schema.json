@@ -111,6 +111,14 @@
         "paused",
         "blocked"
       ]
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": [
+        "web",
+        "telegram",
+        "miniapp"
+      ]
     }
   }
 }
