@@ -168,6 +168,32 @@
     "bot_token_active": {
       "type": "boolean",
       "default": true
+    },
+    "gallery": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "secret_gallery": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "miniapps": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::miniapp.miniapp",
+      "mappedBy": "assistants"
     }
   }
 }

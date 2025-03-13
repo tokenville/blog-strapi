@@ -988,6 +988,13 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       'api::category.category'
     >;
     bot_token_active: Attribute.Boolean & Attribute.DefaultTo<true>;
+    gallery: Attribute.Media;
+    secret_gallery: Attribute.Media;
+    miniapps: Attribute.Relation<
+      'api::assistant.assistant',
+      'manyToMany',
+      'api::miniapp.miniapp'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -998,6 +1005,44 @@ export interface ApiAssistantAssistant extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::assistant.assistant',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiBadgeBadge extends Schema.CollectionType {
+  collectionName: 'badges';
+  info: {
+    singularName: 'badge';
+    pluralName: 'badges';
+    displayName: 'Badge';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    humans: Attribute.Relation<
+      'api::badge.badge',
+      'manyToMany',
+      'api::human.human'
+    >;
+    image: Attribute.Media;
+    description: Attribute.Text;
+    price: Attribute.Decimal;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::badge.badge',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::badge.badge',
       'oneToOne',
       'admin::user'
     > &
@@ -1300,6 +1345,11 @@ export interface ApiHumanHuman extends Schema.CollectionType {
     >;
     blocked: Attribute.Boolean & Attribute.DefaultTo<false>;
     primary_language: Attribute.String;
+    badges: Attribute.Relation<
+      'api::human.human',
+      'manyToMany',
+      'api::badge.badge'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1445,6 +1495,42 @@ export interface ApiInterviewInterview extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::interview.interview',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiMiniappMiniapp extends Schema.CollectionType {
+  collectionName: 'miniapps';
+  info: {
+    singularName: 'miniapp';
+    pluralName: 'miniapps';
+    displayName: 'Miniapp';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    bot_username: Attribute.String;
+    assistants: Attribute.Relation<
+      'api::miniapp.miniapp',
+      'manyToMany',
+      'api::assistant.assistant'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::miniapp.miniapp',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::miniapp.miniapp',
       'oneToOne',
       'admin::user'
     > &
@@ -1870,6 +1956,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::assistant.assistant': ApiAssistantAssistant;
+      'api::badge.badge': ApiBadgeBadge;
       'api::base-assistant.base-assistant': ApiBaseAssistantBaseAssistant;
       'api::category.category': ApiCategoryCategory;
       'api::email-template.email-template': ApiEmailTemplateEmailTemplate;
@@ -1877,6 +1964,7 @@ declare module '@strapi/types' {
       'api::human.human': ApiHumanHuman;
       'api::integration.integration': ApiIntegrationIntegration;
       'api::interview.interview': ApiInterviewInterview;
+      'api::miniapp.miniapp': ApiMiniappMiniapp;
       'api::solution.solution': ApiSolutionSolution;
       'api::store.store': ApiStoreStore;
       'api::stripe-setting.stripe-setting': ApiStripeSettingStripeSetting;

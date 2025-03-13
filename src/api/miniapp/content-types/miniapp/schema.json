@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "miniapps",
+  "info": {
+    "singularName": "miniapp",
+    "pluralName": "miniapps",
+    "displayName": "Miniapp",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "bot_username": {
+      "type": "string"
+    },
+    "assistants": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::assistant.assistant",
+      "inversedBy": "miniapps"
+    }
+  }
+}

@@ -94,6 +94,12 @@
     },
     "primary_language": {
       "type": "string"
+    },
+    "badges": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::badge.badge",
+      "mappedBy": "humans"
     }
   }
 }
