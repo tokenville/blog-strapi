@@ -1018,6 +1018,7 @@ export interface ApiBadgeBadge extends Schema.CollectionType {
     singularName: 'badge';
     pluralName: 'badges';
     displayName: 'Badge';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1032,6 +1033,7 @@ export interface ApiBadgeBadge extends Schema.CollectionType {
     image: Attribute.Media;
     description: Attribute.Text;
     price: Attribute.Decimal;
+    badge_id: Attribute.UID<'api::badge.badge', 'title'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
