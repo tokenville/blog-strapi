@@ -20,6 +20,14 @@
       "relation": "manyToMany",
       "target": "api::assistant.assistant",
       "inversedBy": "miniapps"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "bot_token": {
+      "type": "string",
+      "unique": true
     }
   }
 }

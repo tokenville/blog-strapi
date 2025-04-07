@@ -1522,6 +1522,8 @@ export interface ApiMiniappMiniapp extends Schema.CollectionType {
       'manyToMany',
       'api::assistant.assistant'
     >;
+    is_active: Attribute.Boolean & Attribute.DefaultTo<true>;
+    bot_token: Attribute.String & Attribute.Unique;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
